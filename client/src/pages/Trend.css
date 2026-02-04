@@ -1,0 +1,88 @@
+/* ===== 이미지 그리드 ===== */
+.imgRow {
+  display: grid;
+  gap: 18px;
+}
+.trendIntro .trendText {
+  white-space: pre-line;
+}
+.sectionDesc {
+  margin-top: 20px;
+  line-height: 1.9;
+  letter-spacing: -0.01em;
+  max-width: 600px; /* 글줄 길이 제한 */
+  white-space: pre-line;
+}
+
+/* 개수별 컬럼 */
+.imgCount1 { grid-template-columns: repeat(1, 1fr); }
+.imgCount2 { grid-template-columns: repeat(2, 1fr); }
+.imgCount3 { grid-template-columns: repeat(3, 1fr); }
+
+/* ===== 이미지 카드 (정사각형의 핵심) ===== */
+.imgCard {
+   border-radius: 14px;
+  overflow: hidden;
+  background: #f0f0f0;
+
+  aspect-ratio: 3 / 4; /* ✅ 세로로 살짝 긴 비율 */
+
+  /*transition: transform 180ms ease, box-shadow 180ms ease;*/
+}
+
+/* hover 시 카드 자체 확대 */
+/*.imgCard:hover {
+  transform: scale(1.035);
+  z-index: 2;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}*/
+
+/* ===== 이미지 ===== */
+.img {
+ width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sectionTitle {
+  display: inline-block; /* ⭐ 핵심 */
+  margin: 10px 0 6px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  position: relative;
+}
+
+.sectionTitle::after {
+  content: "";
+  display: block;
+  width: 100%;           /* ⭐ 제목 너비만큼 */
+  height: 2px;
+  background: #111;
+  margin-top: 8px;
+  opacity: 0.18;
+}
+
+.trendSections {
+  display: flex;
+  flex-direction: column;
+  gap: 80px; /* ⭐ 추천 */
+}
+
+.trendSection {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-top: 20px;
+}
+
+.sectionLead {
+  margin: 6px 0 2px;
+  font-size: 14px;
+  font-weight: 600;       /* 소제목(800)보다 덜 강조 */
+  color: rgba(0, 0, 0, 0.7);
+  letter-spacing: -0.01em;
+  line-height: 1.7;
+}
+

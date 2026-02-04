@@ -1,0 +1,50 @@
+/* client/src/components/Sidebar.css */
+
+/* client/src/components/Sidebar.css */
+
+.menu {
+  margin-top: 40px;
+
+  /* ✅ 핵심: 가장 긴 항목 너비만큼만 menu가 커짐 */
+  width: fit-content;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 140px; 
+}
+
+/* 메뉴 하나(직사각형 칸) */
+.menu-item {
+  /* ✅ 핵심: menu의 너비(=가장 긴 것)를 그대로 따라감 */
+  width: 100%;
+
+  display: inline-flex; /* 글자/정렬 깔끔하게 */
+  align-items: center;
+
+  padding: 14px 16px;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  background: #ffffff;
+
+  color: #000000;
+  text-decoration: none;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.menu-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.menu-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+/* 눌렀을 때(현재 페이지) 강조하고 싶으면 NavLink로 바꾸면 가능 */

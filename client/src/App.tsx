@@ -1,19 +1,28 @@
-import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import Home from "./pages/Home";
+import Color from "./pages/Color";
+import Trend from "./pages/Trend";
+import Styling from "./pages/Styling";
+import "./App.css";
 
 function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    fetch("http://localhost:3000")
-      .then((res) => res.text())
-      .then((data) => setMessage(data));
-  }, []);
-
   return (
-    <div style={{ padding: "40px" }}>
-      <h1>Frontend Practice 🚀</h1>
-      <p>서버에서 받은 메시지:</p>
-      <strong>{message}</strong>
+    <div className="layout">
+      {/* 왼쪽 50% */}
+      <aside className="left">
+        <Sidebar />
+      </aside>
+
+      {/* 오른쪽 50% */}
+      <main className="right">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/color" element={<Color />} />
+          <Route path="/trend" element={<Trend />} />
+          <Route path="/styling" element={<Styling />} />
+        </Routes>
+      </main>
     </div>
   );
 }

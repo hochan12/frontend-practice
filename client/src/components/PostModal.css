@@ -1,0 +1,290 @@
+.pmOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+}
+
+.pmDialog {
+  width: min(1080px, 95vw);
+  height: min(720px, 85vh);
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+
+  min-height: 0;
+}
+
+/* ===== 왼쪽(이미지) ===== */
+.pmMedia {
+  position: relative;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+  min-height: 0;
+}
+
+.pmMediaInner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pmImg {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* 네비 */
+.pmNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255,255,255,0.9);
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 38px;
+}
+
+.pmNav:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.pmPrev { left: 12px; }
+.pmNext { right: 12px; }
+
+.pmDots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pmDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255,255,255,0.45);
+  cursor: pointer;
+}
+
+.pmDot.isActive {
+  background: rgba(255,255,255,0.95);
+}
+
+/* ===== 오른쪽(패널) ===== */
+.pmSide {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+
+  min-width: 0;
+  min-height: 0;
+}
+
+.pmHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.pmProfile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.pmAvatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.06);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 14px;
+  flex: 0 0 auto;
+}
+
+.pmNameCol {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pmName {
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pmClose {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 6px 8px;
+}
+
+/* 내용 스크롤 영역 */
+.pmBody {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: auto;
+}
+
+.pmCaption {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(0,0,0,0.82);
+}
+
+.pmMetaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pmDate {
+  font-size: 12px;
+  color: rgba(0,0,0,0.55);
+}
+
+.pmTags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pmTag {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.12);
+  color: rgba(0,0,0,0.72);
+  background: #fff;
+}
+
+/* 좋아요/버튼 라인 */
+.pmLikeLine {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pmLikeCountBtn {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 0;
+}
+
+.pmActions {
+  display: flex;
+  gap: 8px;
+}
+
+.pmActionBtn {
+  border: 1px solid rgba(0,0,0,0.12);
+  background: #fff;
+  border-radius: 999px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.pmActionBtn.isActive {
+  border-color: rgba(0,0,0,0.25);
+  font-weight: 700;
+}
+
+.pmDivider {
+  height: 1px;
+  background: rgba(0,0,0,0.08);
+  margin: 4px 0;
+}
+
+/* 댓글 */
+.pmComments {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pmCommentRow {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.pmCommentName {
+  font-weight: 800;
+}
+
+.pmCommentInputRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.pmInput {
+  flex: 1;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 999px;
+  padding: 10px 12px;
+  font-size: 13px;
+  outline: none;
+}
+
+.pmInput:focus {
+  border-color: rgba(0,0,0,0.28);
+}
+
+.pmPostBtn {
+  border: 1px solid rgba(0,0,0,0.12);
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+}

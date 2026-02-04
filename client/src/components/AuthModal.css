@@ -1,0 +1,95 @@
+.amOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 16px;
+}
+
+.amDialog {
+  width: min(420px, 92vw);
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.amHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.amTitle {
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.amClose {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.amBody {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.amLabel {
+  font-size: 12px;
+  color: rgba(0,0,0,0.65);
+}
+
+.amInput {
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+.amInput:focus {
+  border-color: rgba(0,0,0,0.35);
+}
+
+.amActions {
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.amBtn {
+  border: 1px solid rgba(0,0,0,0.15);
+  background: #111;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.amBtn.ghost {
+  background: #fff;
+  color: #111;
+}
+
+.amBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.amHint {
+  font-size: 12px;
+  color: rgba(0,0,0,0.55);
+  line-height: 1.5;
+}
