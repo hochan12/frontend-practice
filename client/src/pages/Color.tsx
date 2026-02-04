@@ -1,23 +1,15 @@
-import { useEffect, useState } from "react";
+import PageComments from "../components/PageComments";
+import "./PageLayout.css";
 
-function Color() {
-  const [data, setData] = useState<any>(null);
-
-  useEffect(() => {
-    fetch("http://localhost:3000/api/color")
-      .then(res => res.json())
-      .then(data => setData(data));
-  }, []);
-
-  if (!data) return <p>로딩 중...</p>;
-
+export default function Color() {
   return (
-    <div>
-      <h1>{data.title}</h1>
-      <h2>{data.color}</h2>
-      <p>{data.description}</p>
+    <div className="pageLayout">
+      <div className="pageCard">
+        <h2>올해의 컬러</h2>
+        <p>(여기에 네가 작성할 글을 나중에 채우면 돼.)</p>
+
+        <PageComments pageKey="color" />
+      </div>
     </div>
   );
 }
-
-export default Color;

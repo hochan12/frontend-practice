@@ -17,4 +17,5 @@
   padding: 0;        /* ✅ 이 줄 */
   box-sizing: border-box;
   overflow-y: auto; /* 스크롤 자연스럽게 */
+  position: relative;
 }

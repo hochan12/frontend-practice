@@ -1,4 +1,5 @@
 import "./Trend.css";
+import "./PageLayout.css";
 
 import img1 from "../assets/1남성.jpg";
 import img3 from "../assets/3남성.jpg";
@@ -18,6 +19,8 @@ import img20 from "../assets/16여성.jpg";
 import img13 from "../assets/13여성.jpg";
 import img17 from "../assets/17여성.jpg";
 
+import PageComments from "../components/PageComments";
+
 type Img = { src: string; alt: string };
 
 type TrendSection = {
@@ -28,7 +31,6 @@ type TrendSection = {
   description: string;
   extraDescription?: string;
 
-  // ✅ lead를 2개 쓰기 위한 분리 필드
   leadAfterImages?: string;
   leadAfterExtraImages?: string;
 };
@@ -105,67 +107,64 @@ function getGridCols(count: number) {
 
 export default function Trend() {
   return (
-    <div className="trendPage">
-      <section className="trendIntro">
-        <h2 className="trendTitle">올해의 트렌드</h2>
-        <p className="trendText">{introText}</p>
-      </section>
+    <div className="pageLayout">
+      <div className="pageCard">
+        <div className="trendPage">
+          <section className="trendIntro">
+            <h2 className="trendTitle">올해의 트렌드</h2>
+            <p className="trendText">{introText}</p>
+          </section>
 
-      <div className="trendSections">
-        {sections.map((sec, idx) => {
-          const isLast = idx === sections.length - 1;
+          <div className="trendSections">
+            {sections.map((sec, idx) => {
+              const isLast = idx === sections.length - 1;
 
-          return (
-            <section className="trendSection" key={idx}>
-              <h3 className="sectionTitle">{sec.title}</h3>
+              return (
+                <section className="trendSection" key={idx}>
+                  <h3 className="sectionTitle">{sec.title}</h3>
 
-              {/* 기본 이미지 */}
-              <div className={`imgRow imgCount${getGridCols(sec.images.length)}`}>
-                {sec.images.map((img, i) => (
-                  <div className="imgCard" key={i}>
-                    <img className="img" src={img.src} alt={img.alt} />
+                  <div className={`imgRow imgCount${getGridCols(sec.images.length)}`}>
+                    {sec.images.map((img, i) => (
+                      <div className="imgCard" key={i}>
+                        <img className="img" src={img.src} alt={img.alt} />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
 
-              {/* ✅ images 아래 lead */}
-              {sec.leadAfterImages && (
-                <p className="sectionLead">{sec.leadAfterImages}</p>
-              )}
+                  {sec.leadAfterImages && (
+                    <p className="sectionLead">{sec.leadAfterImages}</p>
+                  )}
 
-              {/* description */}
-              <p className="sectionDesc">{sec.description}</p>
+                  <p className="sectionDesc">{sec.description}</p>
 
-              {/* extra description (마지막 섹션이 아니면 기존 위치 유지) */}
-              {!isLast && sec.extraDescription && (
-                <p className="sectionDesc sectionDescExtra">{sec.extraDescription}</p>
-              )}
+                  {!isLast && sec.extraDescription && (
+                    <p className="sectionDesc sectionDescExtra">{sec.extraDescription}</p>
+                  )}
 
-              {/* extra images */}
-              {sec.extraImages && (
-                <div
-                  className={`imgRow imgCount${getGridCols(sec.extraImages.length)}`}
-                >
-                  {sec.extraImages.map((img, i) => (
-                    <div className="imgCard" key={`extra-${idx}-${i}`}>
-                      <img className="img" src={img.src} alt={img.alt} />
+                  {sec.extraImages && (
+                    <div className={`imgRow imgCount${getGridCols(sec.extraImages.length)}`}>
+                      {sec.extraImages.map((img, i) => (
+                        <div className="imgCard" key={`extra-${idx}-${i}`}>
+                          <img className="img" src={img.src} alt={img.alt} />
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              )}
+                  )}
 
-              {/* ✅ extraImages 아래 lead */}
-              {sec.leadAfterExtraImages && (
-                <p className="sectionLead">{sec.leadAfterExtraImages}</p>
-              )}
+                  {sec.leadAfterExtraImages && (
+                    <p className="sectionLead">{sec.leadAfterExtraImages}</p>
+                  )}
 
-              {/* extra description (마지막 섹션이면 여기로 내려서 확실히 보이게) */}
-              {isLast && sec.extraDescription && (
-                <p className="sectionDesc sectionDescExtra">{sec.extraDescription}</p>
-              )}
-            </section>
-          );
-        })}
+                  {isLast && sec.extraDescription && (
+                    <p className="sectionDesc sectionDescExtra">{sec.extraDescription}</p>
+                  )}
+                </section>
+              );
+            })}
+          </div>
+
+          <PageComments pageKey="trend" />
+        </div>
       </div>
     </div>
   );

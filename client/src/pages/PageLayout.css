@@ -1,0 +1,97 @@
+/* PageLayout.css - 가로 스크롤 방지 + 2컬럼 안정화 */
+
+/* 핵심: 레이아웃 루트에서 가로 넘침 차단 */
+.pageLayout {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 32px 36px;
+
+  display: flex;
+  gap: 28px;
+
+  overflow-x: hidden;
+}
+
+/* 왼쪽(사이드바) */
+.leftArea {
+  flex: 0 0 260px;
+  min-width: 260px;
+}
+
+/* 오른쪽(컨텐츠) - ✅ min-width:0 이거 없으면 가로 스크롤 잘 생김 */
+.rightArea {
+  flex: 1 1 auto;
+  min-width: 0;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  overflow-x: hidden;
+}
+
+/* 흰 카드 */
+.pageCard {
+  width: min(920px, 100%);
+  box-sizing: border-box;
+
+  background: #fff;
+  border-radius: 16px;
+  padding: 26px 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+
+  /* 카드 내부도 가로 넘침 차단 */
+  overflow-x: hidden;
+}
+
+/* 카드 안에서 튀어나오는 요소들(이미지/긴텍스트/코드/표 등) 방지 */
+.pageCard img,
+.pageCard video,
+.pageCard canvas,
+.pageCard svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.pageCard pre,
+.pageCard code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.pageCard h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.pageCard p {
+  margin: 0 0 18px;
+  line-height: 1.8;
+  color: rgba(0, 0, 0, 0.75);
+
+  /* 긴 문장 때문에 가로로 튀는 것 방지 */
+  word-break: break-word;
+}
+
+/* 반응형: 화면 좁으면 세로로 */
+@media (max-width: 900px) {
+  .pageLayout {
+    flex-direction: column;
+    padding: 20px 16px;
+  }
+
+  .leftArea {
+    flex: none;
+    min-width: 0;
+  }
+
+  .rightArea {
+    justify-content: stretch;
+  }
+
+  .pageCard {
+    width: 100%;
+  }
+}

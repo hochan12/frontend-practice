@@ -1,0 +1,65 @@
+.moreWrap {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 50;
+}
+
+.moreBtn {
+  width: 44px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: white;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.moreBackdrop {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 49;
+}
+
+.morePanel {
+  position: absolute;
+  top: 44px;
+  right: 0;
+  width: 180px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 8px;
+  z-index: 50;
+}
+
+.moreItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 10px;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  font-size: 14px;
+}
+
+.moreItem:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.moreDivider {
+  height: 1px;
+  margin: 8px 0;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.moreItem.danger {
+  color: #d22;
+}

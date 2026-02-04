@@ -1,26 +1,15 @@
-import { useEffect, useState } from "react";
+import PageComments from "../components/PageComments";
+import "./PageLayout.css";
 
-function Styling() {
-  const [data, setData] = useState<any>(null);
-
-  useEffect(() => {
-    fetch("http://localhost:3000/api/styling")
-      .then(res => res.json())
-      .then(data => setData(data));
-  }, []);
-
-  if (!data) return <p>로딩 중...</p>;
-
+export default function Styling() {
   return (
-    <div>
-      <h1>{data.title}</h1>
-      <ul>
-        {data.tips.map((tip: string, index: number) => (
-          <li key={index}>{tip}</li>
-        ))}
-      </ul>
+    <div className="pageLayout">
+      <div className="pageCard">
+        <h2>스타일링 팁</h2>
+        <p>(여기도 나중에 글을 채우고, 아래 댓글만 유지하면 돼.)</p>
+
+        <PageComments pageKey="styling" />
+      </div>
     </div>
   );
 }
-
-export default Styling;

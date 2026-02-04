@@ -1,25 +1,29 @@
 /* client/src/components/Sidebar.css */
 
-/* client/src/components/Sidebar.css */
+/* ===== 기존 Sidebar 스타일 (절대 수정 X) ===== */
 
 .menu {
-  margin-top: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%); /* ✅ 진짜 정중앙 */
 
-  /* ✅ 핵심: 가장 긴 항목 너비만큼만 menu가 커짐 */
+  /* ✅ 가로 위치(열)는 지금처럼 고정: 왼쪽에서 떨어진 값으로 맞춤 */
+
+  /* ✅ 기존 너비 정책 유지 */
   width: fit-content;
 
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-width: 140px; 
+  min-width: 140px;
+  margin-top: -50px;
 }
 
-/* 메뉴 하나(직사각형 칸) */
+/* 메뉴 하나 */
 .menu-item {
-  /* ✅ 핵심: menu의 너비(=가장 긴 것)를 그대로 따라감 */
   width: 100%;
 
-  display: inline-flex; /* 글자/정렬 깔끔하게 */
+  display: inline-flex;
   align-items: center;
 
   padding: 14px 16px;
@@ -42,9 +46,97 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-.menu-item:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+/* ===== kebab 메뉴 (Sidebar와 완전히 분리) ===== */
+
+/* Magazine 링크 */
+.brandLink {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
 }
 
-/* 눌렀을 때(현재 페이지) 강조하고 싶으면 NavLink로 바꾸면 가능 */
+/* 점 세개 버튼: 왼쪽 맨 아래 고정 */
+.kebabWrap {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 9999;
+}
+
+/* 버튼 */
+.kebabBtn {
+  width: 44px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* 바깥 클릭용 */
+.kebabOverlay {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 9998;
+}
+
+/* 드롭다운 */
+.kebabMenu {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  transform: translateY(-46px);
+
+  width: 180px;
+  padding: 8px;
+
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 10000;
+}
+
+.kebabItem {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+
+
+  border-radius: 10px;
+  border: 0;
+  background: transparent;
+
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.kebabItem:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.kebabDivider {
+  height: 1px;
+  margin: 6px 0;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.kebabItem.danger {
+  color: #d32f2f;
+}
+
+.sidebar {
+   position: relative;  /* ✅ menu 가운데 정렬 기준 */
+  height: 100vh;       /* ✅ 화면 높이 기준 */
+}
