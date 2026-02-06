@@ -5,6 +5,9 @@ import { prisma } from "./src/lib/prisma.js";
 
 import authRouter from "./src/routes/auth.js";
 import meRouter from "./src/routes/me.js";
+import postsRouter from "./src/routes/posts.js";
+
+import bookmarksRouter from "./src/routes/bookmarks.js";
 
 const app = express();
 
@@ -60,15 +63,18 @@ app.get("/api/health", async (req, res) => {
 });
 
 /**
- * (추가) Auth / Me 라우터
+ * (유지) Auth / Me 라우터
  */
 app.use("/api/auth", authRouter);
 app.use("/api/me", meRouter);
 
-// 루트는 프론트가 아니라서 "Cannot GET /" 나오는 게 정상임.
-// 그래도 보기 싫으면 아래 주석 해제하면 됨.
-// app.get("/", (req, res) => res.send("OK"));
+/**
+ * (추가) Posts 라우터 (bookmark 토글)
+ */
+app.use("/api/posts", postsRouter);
 
 app.listen(3000, () => {
   console.log("Server running on http://localhost:3000");
 });
+
+app.use("/api/bookmarks", bookmarksRouter);

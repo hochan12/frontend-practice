@@ -1,97 +1,69 @@
-/* PageLayout.css - 가로 스크롤 방지 + 2컬럼 안정화 */
+/* ✅ SavedPosts: 메인 피드처럼 보이게(3열 그리드 + 고정 비율 카드) */
+.thumbGrid--feed {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  align-items: start;
+}
 
-/* 핵심: 레이아웃 루트에서 가로 넘침 차단 */
-.pageLayout {
+@media (max-width: 1100px) {
+  .thumbGrid--feed {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .thumbGrid--feed {
+    grid-template-columns: 1fr;
+  }
+}
+
+.thumbCard--btn {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+
+  /* ✅ 인스타 피드 느낌: 정사각형 카드 */
+  aspect-ratio: 1 / 1;
+}
+
+.thumbImg {
   width: 100%;
-  box-sizing: border-box;
-  padding: 32px 36px;
-
-  display: flex;
-  gap: 28px;
-
-  overflow-x: hidden;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
 
-/* 왼쪽(사이드바) */
-.leftArea {
-  flex: 0 0 260px;
-  min-width: 260px;
+.thumbOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.0);
+  transition: background 0.15s ease;
 }
 
-/* 오른쪽(컨텐츠) - ✅ min-width:0 이거 없으면 가로 스크롤 잘 생김 */
-.rightArea {
-  flex: 1 1 auto;
-  min-width: 0;
-
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  overflow-x: hidden;
+.thumbCard--btn:hover .thumbOverlay {
+  background: rgba(0,0,0,0.12);
 }
 
-/* 흰 카드 */
-.pageCard {
-  width: min(920px, 100%);
-  box-sizing: border-box;
+.thumbTitle {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 12px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 1.25;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.45);
 
-  background: #fff;
-  border-radius: 16px;
-  padding: 26px 28px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-
-  /* 카드 내부도 가로 넘침 차단 */
-  overflow-x: hidden;
-}
-
-/* 카드 안에서 튀어나오는 요소들(이미지/긴텍스트/코드/표 등) 방지 */
-.pageCard img,
-.pageCard video,
-.pageCard canvas,
-.pageCard svg {
-  max-width: 100%;
-  height: auto;
-}
-
-.pageCard pre,
-.pageCard code {
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.pageCard h2 {
-  margin: 0 0 10px;
-  font-size: 22px;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-}
-
-.pageCard p {
-  margin: 0 0 18px;
-  line-height: 1.8;
-  color: rgba(0, 0, 0, 0.75);
-
-  /* 긴 문장 때문에 가로로 튀는 것 방지 */
-  word-break: break-word;
-}
-
-/* 반응형: 화면 좁으면 세로로 */
-@media (max-width: 900px) {
-  .pageLayout {
-    flex-direction: column;
-    padding: 20px 16px;
-  }
-
-  .leftArea {
-    flex: none;
-    min-width: 0;
-  }
-
-  .rightArea {
-    justify-content: stretch;
-  }
-
-  .pageCard {
-    width: 100%;
-  }
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

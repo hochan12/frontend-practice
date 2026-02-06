@@ -11,27 +11,22 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar">
-      {/* ✅ Magazine 클릭하면 홈으로 */}
       <Link to="/" className="brandLink">
         <h1 className="brand">Magazine</h1>
       </Link>
 
-      {/* ✅ 네 원래 Sidebar.css에 맞춘 구조: menu / menu-item */}
       <nav className="menu">
-        <Link className="menu-item" to="/color">
-          올해의 컬러
-        </Link>
-        <Link className="menu-item" to="/trend">
-          올해의 트렌드
-        </Link>
-        <Link className="menu-item" to="/styling">
-          스타일링 팁
-        </Link>
+        <Link className="menu-item" to="/color">올해의 컬러</Link>
+        <Link className="menu-item" to="/trend">올해의 트렌드</Link>
+        <Link className="menu-item" to="/styling">스타일링 팁</Link>
       </nav>
 
-      {/* ✅ 점세개 버튼: 왼쪽 아래 고정 */}
       <div className="kebabWrap">
-        <button className="kebabBtn" onClick={() => setOpen((v) => !v)} aria-label="more menu">
+        <button
+          className="kebabBtn"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="more menu"
+        >
           ⋯
         </button>
 
@@ -40,9 +35,7 @@ export default function Sidebar() {
             <div className="kebabOverlay" onClick={() => setOpen(false)} />
 
             <div className="kebabMenu">
-              <Link className="kebabItem" to="/tags" onClick={() => setOpen(false)}>
-                태그 모음
-              </Link>
+              {/* ✅ 태그 모음 삭제 */}
               <Link className="kebabItem" to="/saved" onClick={() => setOpen(false)}>
                 저장한 항목
               </Link>

@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/authStore";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const login = useAuthStore((s) => s.login);
   const user = useAuthStore((s) => s.user);
   const isHydrated = useAuthStore((s) => s.isHydrated);
 
+  const nav = useNavigate();
   const location = useLocation();
   const from = (location.state as any)?.from || "/";
 
@@ -51,10 +52,31 @@ export default function Login() {
             type="password"
             autoComplete="current-password"
           />
+
           <button disabled={loading} type="submit">
             {loading ? "로그인 중..." : "로그인"}
           </button>
+
+          {/* ✅ 회원가입 버튼 복구 */}
+          <button
+            type="button"
+            onClick={() => nav("/register")}
+            style={{
+              marginTop: 6,
+              width: "100%",
+              height: 36,
+              border: "1px solid rgba(0,0,0,0.12)",
+              borderRadius: 8,
+              background: "#fff",
+              cursor: "pointer",
+              fontWeight: 700,
+            }}
+          >
+            회원가입
+          </button>
+
           {error && <p style={{ color: "red" }}>{error}</p>}
+
           <p style={{ fontSize: 12, opacity: 0.7 }}>
             로그인 후 원래 가려던 페이지로 자동 복귀합니다.
           </p>

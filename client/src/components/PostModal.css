@@ -9,17 +9,36 @@
   padding: 16px;
 }
 
+/* 오픈 애니메이션(배경 페이드) */
+.pmOverlay {
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+.pmOverlay.open {
+  opacity: 1;
+}
+
 .pmDialog {
   width: min(1080px, 95vw);
   height: min(720px, 85vh);
   background: #fff;
   border-radius: 16px;
   overflow: hidden;
-
   display: grid;
   grid-template-columns: 1.4fr 1fr;
-
   min-height: 0;
+
+  /* 오픈 애니메이션(모달 팝) */
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pmDialog.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 /* ===== 왼쪽(이미지) ===== */
@@ -29,7 +48,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   min-width: 0;
   min-height: 0;
 }
@@ -65,12 +83,10 @@
   font-size: 22px;
   line-height: 38px;
 }
-
 .pmNav:disabled {
   opacity: 0.35;
   cursor: default;
 }
-
 .pmPrev { left: 12px; }
 .pmNext { right: 12px; }
 
@@ -83,7 +99,6 @@
   justify-content: center;
   gap: 8px;
 }
-
 .pmDot {
   width: 8px;
   height: 8px;
@@ -92,7 +107,6 @@
   background: rgba(255,255,255,0.45);
   cursor: pointer;
 }
-
 .pmDot.isActive {
   background: rgba(255,255,255,0.95);
 }
@@ -102,7 +116,6 @@
   display: flex;
   flex-direction: column;
   background: #fff;
-
   min-width: 0;
   min-height: 0;
 }
@@ -133,12 +146,6 @@
   font-weight: 800;
   font-size: 14px;
   flex: 0 0 auto;
-}
-
-.pmNameCol {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
 }
 
 .pmName {
@@ -211,7 +218,7 @@
 .pmLikeCountBtn {
   border: 0;
   background: transparent;
-  cursor: pointer;
+  cursor: default;
   font-weight: 800;
   font-size: 13px;
   padding: 0;
@@ -229,17 +236,94 @@
   padding: 8px 10px;
   cursor: pointer;
   font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+  transition: transform 0.12s ease, border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
 }
 
-.pmActionBtn.isActive {
-  border-color: rgba(0,0,0,0.25);
-  font-weight: 700;
+.pmIcon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* 하트(좋아요) 활성 스타일 */
+.pmLikeBtn.isLiked {
+  color: #e53935;
+  border-color: rgba(229,57,53,0.35);
+  background: rgba(229,57,53,0.06);
+}
+.pmLikeBtn.isLiked .pmIcon {
+  color: #e53935;
+}
+
+/* 저장 활성 스타일(노랑) */
+.pmSaveBtn.isSaved {
+  color: #f9a825;
+  border-color: rgba(249,168,37,0.45);
+  background: rgba(249,168,37,0.10);
+}
+.pmSaveBtn.isSaved .pmIcon {
+  color: #f9a825;
+}
+
+/* 통통 애니메이션 */
+@keyframes pmPop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+.pmActionBtn.isPop {
+  animation: pmPop 0.26s ease;
 }
 
 .pmDivider {
   height: 1px;
   background: rgba(0,0,0,0.08);
   margin: 4px 0;
+}
+
+/* ✅ 비로그인 안내 박스 */
+.pmAuthBox {
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(0,0,0,0.03);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pmAuthText {
+  font-size: 13px;
+  color: rgba(0,0,0,0.80);
+  font-weight: 600;
+}
+
+.pmAuthActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.pmAuthBtn {
+  border: 1px solid rgba(0,0,0,0.14);
+  background: #fff;
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.pmAuthGhost {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0.7;
 }
 
 /* 댓글 */
@@ -279,6 +363,11 @@
   border-color: rgba(0,0,0,0.28);
 }
 
+.pmInput:disabled {
+  background: rgba(0,0,0,0.03);
+  cursor: not-allowed;
+}
+
 .pmPostBtn {
   border: 1px solid rgba(0,0,0,0.12);
   background: #fff;
@@ -287,4 +376,9 @@
   cursor: pointer;
   font-size: 13px;
   font-weight: 700;
+}
+
+.pmPostBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }

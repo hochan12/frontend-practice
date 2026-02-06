@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./PageComments.css";
 
-export type PageComment = {
+type PageComment = {
   id: string;
   nickname: string;
   text: string;
@@ -9,11 +9,15 @@ export type PageComment = {
 };
 
 type Props = {
-  storageKey: string;              // 페이지별로 다르게 (예: "page:trend")
-  isLoggedIn: boolean;
-  myNickname: string;              // 로그인한 사람 닉네임
-  onRequireLogin?: () => void;      // 로그인 모달 열기 등
+  pageKey: string; // "trend" | "color" | "styling"
 };
+
+// ✅ 지금은 프론트(로컬) 데모
+function getAuth() {
+  const isLoggedIn = localStorage.getItem("demo:loggedIn") === "true";
+  const myNickname = localStorage.getItem("demo:nickname") || "me";
+  return { isLoggedIn, myNickname };
+}
 
 function load(storageKey: string): PageComment[] {
   try {
@@ -31,34 +35,48 @@ function save(storageKey: string, comments: PageComment[]) {
   localStorage.setItem(storageKey, JSON.stringify(comments));
 }
 
-export default function PageComments({
-  storageKey,
-  isLoggedIn,
-  myNickname,
-  onRequireLogin,
-}: Props) {
+export default function PageComments({ pageKey }: Props) {
+  const storageKey = `pageComments:${pageKey}`;
+
+  const [{ isLoggedIn, myNickname }, setAuth] = useState(getAuth);
   const [text, setText] = useState("");
   const [items, setItems] = useState<PageComment[]>(() => load(storageKey));
 
   useEffect(() => {
-    // 다른 페이지로 이동 시 storageKey 바뀌면 그걸로 로딩
     setItems(load(storageKey));
     setText("");
+    setAuth(getAuth());
   }, [storageKey]);
 
-  const canPost = useMemo(() => isLoggedIn && text.trim().length > 0, [isLoggedIn, text]);
+  useEffect(() => {
+    const onStorage = () => {
+      setItems(load(storageKey));
+      setAuth(getAuth());
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, [storageKey]);
+
+  const canPost = useMemo(
+    () => isLoggedIn && text.trim().length > 0,
+    [isLoggedIn, text]
+  );
 
   const submit = () => {
-    if (!isLoggedIn) {
-      onRequireLogin?.();
-      return;
-    }
+    const authNow = getAuth();
+    setAuth(authNow);
+
+    if (!authNow.isLoggedIn) return; // ✅ 안내문구는 아래 힌트/링크가 아니라 placeholder로만 처리
+
     const v = text.trim();
     if (!v) return;
 
     const next: PageComment = {
-      id: crypto.randomUUID(),
-      nickname: myNickname || "user",
+      id:
+        typeof crypto !== "undefined" && "randomUUID" in crypto
+          ? crypto.randomUUID()
+          : String(Date.now()),
+      nickname: authNow.myNickname || myNickname || "me",
       text: v,
       createdAt: new Date().toISOString(),
     };
@@ -102,11 +120,7 @@ export default function PageComments({
         </button>
       </div>
 
-      {!isLoggedIn && (
-        <div className="pcHint" onClick={() => onRequireLogin?.()}>
-          로그인해야 댓글을 작성할 수 있어요.
-        </div>
-      )}
+      {/* ✅ (삭제) 밑줄 힌트/문구 pcHint 자체를 제거 */}
     </div>
   );
 }
