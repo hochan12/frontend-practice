@@ -1,19 +1,25 @@
+// server/src/routes/me.js
 import { Router } from "express";
 import { prisma } from "../lib/prisma.js";
 import { requireAuth } from "../middleware/auth.js";
+import { mergePostImages, resolvePostImagesFromFs } from "../utils/postImages.js";
 
 const router = Router();
 
 /**
  * GET /api/me
- * (네 프로젝트에 이미 있을 수 있어서 유지용으로 넣었음)
  */
 router.get("/", requireAuth, async (req, res) => {
-  const userId = req.user.id;
-
   const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { id: true, email: true, nickname: true, role: true, createdAt: true, updatedAt: true },
+    where: { id: req.user.id },
+    select: {
+      id: true,
+      email: true,
+      nickname: true,
+      role: true,
+      createdAt: true,
+      updatedAt: true,
+    },
   });
 
   return res.json({ ok: true, user });
@@ -21,20 +27,56 @@ router.get("/", requireAuth, async (req, res) => {
 
 /**
  * GET /api/me/bookmarks
- * => { ok: true, postIds: number[] }
- * (지금은 Post를 DB에 안 넣었으니 postId만 내려준다)
  */
 router.get("/bookmarks", requireAuth, async (req, res) => {
-  const userId = req.user.id;
-
-  const rows = await prisma.bookmark.findMany({
-    where: { userId },
-    select: { postId: true },
+  const items = await prisma.bookmark.findMany({
+    where: { userId: req.user.id },
     orderBy: { createdAt: "desc" },
+    select: { postId: true },
   });
 
-  const postIds = rows.map((r) => r.postId);
-  return res.json({ ok: true, postIds });
+  return res.json({ ok: true, postIds: items.map((x) => x.postId) });
+});
+
+/**
+ * ✅ GET /api/me/bookmarks/posts
+ * SavedPosts 1번 요청으로 끝
+ * ✅ 실제 이미지 개수까지 포함해서 내려줌
+ */
+router.get("/bookmarks/posts", requireAuth, async (req, res) => {
+  const items = await prisma.bookmark.findMany({
+    where: { userId: req.user.id },
+    orderBy: { createdAt: "desc" },
+    select: {
+      post: {
+        select: {
+          id: true,
+          caption: true,
+          thumbnail: true,
+          images: true,
+          createdAt: true,
+          author: { select: { id: true, nickname: true } },
+        },
+      },
+    },
+  });
+
+  const postsRaw = items.map((x) => x.post).filter(Boolean);
+
+  const posts = postsRaw.map((p) => {
+    const fsImages = resolvePostImagesFromFs(p.id, {
+      max: 30,
+      consecutiveMissLimit: 2,
+      useCache: true,
+    });
+
+    const images = mergePostImages(p.images, fsImages);
+    const thumbnail = p.thumbnail || images[0] || null;
+
+    return { ...p, thumbnail, images };
+  });
+
+  return res.json({ ok: true, posts });
 });
 
 export default router;

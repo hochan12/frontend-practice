@@ -1,48 +1,51 @@
 .pcWrap {
-  margin-top: 26px;
-  border-top: 1px solid rgba(0,0,0,0.08);
-  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 30px;
 }
 
 .pcTitle {
-  font-weight: 800;
   font-size: 14px;
-  margin-bottom: 10px;
+  font-weight: 800;
+  opacity: 0.9;
 }
 
 .pcList {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-height: 240px;
-  overflow: auto;
-  padding-right: 6px;
 }
 
 .pcEmpty {
-  color: rgba(0,0,0,0.55);
   font-size: 13px;
+  opacity: 0.65;
 }
 
+/* 한 줄 */
 .pcItem {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
   font-size: 13px;
-  line-height: 1.5;
+  line-height: 1.45;
+  min-width: 0;
 }
 
 .pcNick {
   font-weight: 800;
-  white-space: nowrap;
+  flex: 0 0 auto;
 }
 
 .pcText {
-  color: rgba(0,0,0,0.85);
+  flex: 1 1 auto;
+  min-width: 0;
   word-break: break-word;
 }
 
+/* 입력줄 */
 .pcInputRow {
-  margin-top: 12px;
   display: flex;
   gap: 8px;
   align-items: center;
@@ -50,31 +53,89 @@
 
 .pcInput {
   flex: 1;
-  border: 1px solid rgba(0,0,0,0.15);
+  border: 1px solid rgba(0,0,0,0.12);
   border-radius: 999px;
   padding: 10px 12px;
   font-size: 13px;
   outline: none;
 }
 
-.pcBtn {
-  border: 1px solid rgba(0,0,0,0.15);
-  background: #fff;
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 13px;
-  cursor: pointer;
+.pcInput:focus {
+  border-color: rgba(0,0,0,0.28);
 }
 
-.pcBtn:disabled {
-  opacity: 0.5;
+.pcInput:disabled {
+  background: rgba(0,0,0,0.03);
   cursor: not-allowed;
 }
 
-.pcHint {
-  margin-top: 10px;
-  font-size: 12px;
-  color: rgba(0,0,0,0.6);
+/* 버튼(PostModal의 pmPostBtn 톤) */
+.pcBtn {
+  border: 1px solid rgba(0,0,0,0.12);
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
   cursor: pointer;
-  text-decoration: underline;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.pcBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pcBtnSm {
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.pcGhost {
+  opacity: 0.78;
+}
+
+.pcDanger {
+  border-color: rgba(229,57,53,0.35);
+  color: #e53935;
+  background: rgba(229,57,53,0.06);
+}
+
+.pcActions {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.pcEditInput {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 삭제 확인 박스 */
+.pcDeleteConfirm {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.pcDeleteText {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(0,0,0,0.75);
+  white-space: nowrap;
+}
+
+.pcDeleteBtns {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }

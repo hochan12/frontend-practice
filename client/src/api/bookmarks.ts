@@ -1,4 +1,6 @@
-const API_BASE = (import.meta as any).env?.VITE_API_BASE || "http://localhost:3000";
+// client/src/api/bookmarks.ts
+const API_BASE =
+  (import.meta as any).env?.VITE_API_BASE || "http://localhost:3000";
 
 function authHeaders(token: string) {
   return {
@@ -16,12 +18,27 @@ export const bookmarkApi = {
     return res.json();
   },
 
-  async toggle(token: string, postId: number): Promise<{ ok: true; saved: boolean }> {
+  async toggle(
+    token: string,
+    postId: number
+  ): Promise<{ ok: true; saved: boolean }> {
     const res = await fetch(`${API_BASE}/api/posts/${postId}/bookmark`, {
       method: "POST",
       headers: authHeaders(token),
     });
     if (!res.ok) throw new Error(`bookmark toggle failed (${res.status})`);
+    return res.json();
+  },
+
+  // ✅ NEW: 저장 여부 단건 조회
+  async getSaved(
+    token: string,
+    postId: number
+  ): Promise<{ ok: true; savedByMe: boolean }> {
+    const res = await fetch(`${API_BASE}/api/posts/${postId}/bookmark`, {
+      headers: authHeaders(token),
+    });
+    if (!res.ok) throw new Error(`bookmark get failed (${res.status})`);
     return res.json();
   },
 };

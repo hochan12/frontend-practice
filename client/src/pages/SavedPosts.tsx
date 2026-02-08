@@ -1,184 +1,175 @@
-import { useEffect, useMemo, useState } from "react";
-import "./SavedPosts.css";
-import { posts } from "../data/posts";
+// client/src/pages/SavedPosts.tsx
+import { useEffect, useState } from "react";
+import "./PageLayout.css";
+import "../components/PostGrid.css"; // ✅ PostGrid.css 재사용
 import { useAuthStore } from "../store/authStore";
-import { bookmarkApi } from "../api/bookmarks";
 import PostModal from "../components/PostModal";
-import { useLocation, useNavigate } from "react-router-dom";
 
-/** ✅ PostModal이 저장하는 로컬 키와 반드시 동일해야 함 */
-function savedKey(nickname: string) {
-  return `saved:${nickname}`;
+const API_BASE = (import.meta as any).env?.VITE_API_BASE || "http://localhost:3000";
+
+function authHeaders(token: string) {
+  return {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
 }
-function loadLocalSavedIds(nickname: string): number[] {
-  try {
-    const raw = localStorage.getItem(savedKey(nickname));
-    if (!raw) return [];
-    const arr = JSON.parse(raw);
-    if (!Array.isArray(arr)) return [];
-    return arr.map((x: any) => Number(x)).filter((n) => Number.isFinite(n));
-  } catch {
-    return [];
-  }
+
+function sleep(ms: number) {
+  return new Promise((r) => setTimeout(r, ms));
 }
-function saveLocalSavedIds(nickname: string, ids: number[]) {
-  localStorage.setItem(savedKey(nickname), JSON.stringify(ids));
-}
+
+type PostLite = {
+  id: number;
+  caption?: string;
+  thumbnail?: string;
+  images?: string[];
+  createdAt?: string;
+  author?: { id: number; nickname: string };
+};
+
+type BookmarkChangedDetail = { postId: number; saved: boolean };
 
 export default function SavedPosts() {
   const user = useAuthStore((s) => s.user);
-
-  // ✅ 프로젝트마다 토큰 키가 달라서 안전하게 커버
   const token =
     useAuthStore((s: any) => s.accessToken ?? s.token ?? s.access_token) ?? null;
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  // ✅ 첫 렌더부터 스켈레톤이 보이도록
+  const [loading, setLoading] = useState(true);
+  const [hasFetched, setHasFetched] = useState(false);
 
-  const [loading, setLoading] = useState(false);
-  const [postIds, setPostIds] = useState<number[]>([]);
+  const [items, setItems] = useState<PostLite[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  // ✅ 모달 상태
-  const [selected, setSelected] = useState<(typeof posts)[number] | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  // 모달
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<PostLite | null>(null);
 
-  /** ✅ “무조건 뜨게” 전략
-   *  1) 로그인 유저면 localStorage(saved:닉네임)에서 먼저 즉시 로드
-   *  2) token이 있으면 서버 목록도 가져와서 local + server union
-   *  3) 서버가 실패해도 local은 유지
-   */
-  useEffect(() => {
-    let alive = true;
+  const skeletonCount = 9;
+  const MIN_SKELETON_MS = 80; // ✅ Home/Saved 공통 체감
 
-    async function run() {
-      if (!user?.nickname) {
-        setPostIds([]);
-        return;
-      }
-
-      // 1) 로컬 먼저(즉시)
-      const localIds = loadLocalSavedIds(user.nickname);
-      if (alive) setPostIds(localIds);
-
-      // token 없으면 여기서 끝(그래도 로컬로는 보임)
-      if (!token) return;
-
-      // 2) 서버 목록도 합치기
-      setLoading(true);
+  async function refetch() {
+    // ✅ 로그인 전이면: 로딩 끄고, 그리드엔 안내 문구만
+    if (!user || !token) {
+      setLoading(false);
+      setHasFetched(true);
+      setItems([]);
       setError(null);
-
-      try {
-        const data = await bookmarkApi.list(token);
-
-        const idsRaw = Array.isArray((data as any)?.postIds)
-          ? (data as any).postIds
-          : [];
-
-        const serverIds = idsRaw
-          .map((x: any) => Number(x))
-          .filter((n: number) => Number.isFinite(n));
-
-        const union = Array.from(new Set<number>([...localIds, ...serverIds]));
-
-        if (!alive) return;
-        setPostIds(union);
-
-        // ✅ localStorage도 union으로 맞춰서 “서버/로컬 불일치”를 줄임
-        saveLocalSavedIds(user.nickname, union);
-      } catch (e: any) {
-        if (!alive) return;
-        // 서버 실패해도 로컬은 이미 setPostIds(localIds)로 들어가 있으니 화면은 뜸
-        setError(e?.message ?? null);
-      } finally {
-        if (!alive) return;
-        setLoading(false);
-      }
+      return;
     }
 
-    run();
+    setLoading(true);
+    setError(null);
 
-    // ✅ PostModal이 저장 토글 후 쏘는 이벤트
-    const onChanged = () => run();
-    window.addEventListener("bookmarks:changed", onChanged);
+    const startedAt = performance.now();
 
-    // ✅ 로컬 저장(같은 탭/다른 탭) 변하면 반영
-    const onStorage = () => run();
-    window.addEventListener("storage", onStorage);
+    try {
+      const res = await fetch(`${API_BASE}/api/me/bookmarks/posts`, {
+        headers: authHeaders(token),
+      });
+      if (!res.ok) throw new Error(`bookmarks posts failed (${res.status})`);
 
-    return () => {
-      alive = false;
-      window.removeEventListener("bookmarks:changed", onChanged);
-      window.removeEventListener("storage", onStorage);
+      const data = await res.json();
+      const nextItems = Array.isArray(data?.posts) ? data.posts : [];
+
+      const elapsed = performance.now() - startedAt;
+      const remain = MIN_SKELETON_MS - elapsed;
+      if (remain > 0) await sleep(remain);
+
+      setItems(nextItems);
+    } catch (e: any) {
+      const elapsed = performance.now() - startedAt;
+      const remain = MIN_SKELETON_MS - elapsed;
+      if (remain > 0) await sleep(remain);
+
+      setError(e?.message ?? "저장 목록 불러오기 실패");
+      setItems([]);
+    } finally {
+      setHasFetched(true);
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, token]);
+
+  // ✅ 모달에서 저장 토글 시 즉시 반영(저장 취소하면 즉시 제거)
+  useEffect(() => {
+    const onChanged = (e: Event) => {
+      const ce = e as CustomEvent<BookmarkChangedDetail>;
+      const d = ce.detail;
+      if (!d || !Number.isFinite(d.postId)) return;
+
+      setItems((prev) => {
+        if (d.saved) return prev;
+        return prev.filter((p) => p.id !== d.postId);
+      });
     };
-  }, [user?.nickname, token]);
 
-  const saved = useMemo(() => {
-    if (!postIds.length) return [];
-    const set = new Set(postIds);
-    return posts.filter((p) => set.has(Number(p.id)));
-  }, [postIds]);
+    window.addEventListener("bookmarks:changed", onChanged as any);
+    return () => window.removeEventListener("bookmarks:changed", onChanged as any);
+  }, []);
 
-  const openModal = (p: (typeof posts)[number]) => {
+  const openModal = (p: PostLite) => {
     setSelected(p);
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-    // PostModal에서 애니메이션 닫기 후 onClose가 호출되므로
-    // 여기서는 선택 해제는 약간 늦게 해도 되고 바로 해도 됨
-    setSelected(null);
-  };
-
-  const requireLogin = () => {
-    // 저장/좋아요/댓글 등에서 로그인 요구할 때 이동
-    navigate("/login", { state: { from: location.pathname } });
+    setOpen(true);
   };
 
   return (
     <div className="pageWrap">
-      <h2><div className="pageTitle">저장한 항목</div></h2>
+      <h2>
+        <div className="pageTitle">저장한 항목</div>
+      </h2>
 
       {!user ? (
         <div className="pageEmpty">로그인하면 저장한 항목을 볼 수 있어요.</div>
-      ) : saved.length === 0 ? (
-        <div className="pageEmpty">
-          아직 저장한 게시물이 없어요.
-          {loading ? " (불러오는 중...)" : ""}
-          {error ? ` (서버 동기화 실패: ${error})` : ""}
-        </div>
       ) : (
-        <div className="savedGridWrap">
-          <div className="savedGrid">
-            {saved.map((p) => (
-              <button
-                key={p.id}
-                className="savedCard"
-                type="button"
-                onClick={() => openModal(p)}
-                aria-label={`saved-${p.id}`}
-              >
-                <img
-                  className="savedImg"
-                  src={(p as any).thumbnail ?? (p as any).images?.[0]}
-                  alt={`saved-${p.id}`}
-                  loading="lazy"
-                />
-              </button>
-            ))}
+        <>
+          {/* ✅ 그리드 컨테이너는 항상 유지(레이아웃 흔들림 방지) */}
+          <div className="postGrid">
+            {loading ? (
+              Array.from({ length: skeletonCount }).map((_, i) => (
+                <div key={i} className="postCard postCard--skeleton" aria-hidden="true">
+                  <div className="postSkelShine" />
+                </div>
+              ))
+            ) : error ? (
+              <div className="postGridMessage">{error}</div>
+            ) : hasFetched && items.length === 0 ? (
+              <div className="postGridMessage">아직 저장한 게시물이 없어요.</div>
+            ) : (
+              items.map((p) => (
+                <button
+                  key={p.id}
+                  className="postCard"
+                  type="button"
+                  onClick={() => openModal(p)}
+                  aria-label={`open saved post ${p.id}`}
+                >
+                  <img
+                    className="postThumb"
+                    src={p.thumbnail ?? p.images?.[0]}
+                    alt={`saved-${p.id}`}
+                    loading="lazy"
+                    decoding="async"
+                    draggable={false}
+                  />
+                </button>
+              ))
+            )}
           </div>
-        </div>
-      )}
 
-      {/* ✅ 저장한 항목 페이지에서도 모달 열리게 */}
-      <PostModal
-        post={selected}
-        isOpen={modalOpen}
-        initialIndex={0}
-        onClose={closeModal}
-        onRequireLogin={requireLogin}
-      />
+          <PostModal
+            post={selected as any}
+            isOpen={open}
+            initialIndex={0}
+            onClose={() => setOpen(false)}
+            onRequireLogin={() => {}}
+          />
+        </>
+      )}
     </div>
   );
 }

@@ -1,4 +1,5 @@
-/* 화면을 정확히 반반 분할 */
+/* client/src/App.css */
+
 .layout {
   display: flex;
   height: 100vh;
@@ -11,11 +12,14 @@
   box-sizing: border-box;
 }
 
-
+/* ✅ 오른쪽: 50vw -> 50% 로 바꾸고, 가로 스크롤 차단 */
 .right {
-  width: 50vw;
-  padding: 0;        /* ✅ 이 줄 */
+  width: 50%;
+  padding: 0;
   box-sizing: border-box;
-  overflow-y: auto; /* 스크롤 자연스럽게 */
+
+  overflow-y: auto;
+  overflow-x: hidden; /* ✅ 가로 스크롤 제거 */
+
   position: relative;
 }

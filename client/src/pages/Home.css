@@ -1,0 +1,5 @@
+/* Home 페이지만 위/아래 위치 조정 */
+.homeOffset {
+  margin-top: 70px;   /* ↓ 값 키우면 내려감 */
+  /* margin-top: 16px;  <- 살짝만 올리고 싶을 때 */
+}

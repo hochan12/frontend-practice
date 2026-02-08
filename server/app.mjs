@@ -1,59 +1,44 @@
+// server/app.mjs
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+
 import { prisma } from "./src/lib/prisma.js";
 
 import authRouter from "./src/routes/auth.js";
 import meRouter from "./src/routes/me.js";
 import postsRouter from "./src/routes/posts.js";
-
 import bookmarksRouter from "./src/routes/bookmarks.js";
+import commentsRouter from "./src/routes/comments.js";
+
+import { optionalAuth } from "./src/middleware/auth.js";
 
 const app = express();
 
+/** ESM에서 __dirname 대체 */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+/** CORS */
 app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
   })
 );
+
 app.use(express.json());
 
-/**
- * (유지) 올해의 컬러
- */
-app.get("/api/color", (req, res) => {
-  res.json({
-    title: "PANTONE 올해의 컬러 2026",
-    color: "Cloud Dancer",
-    description: "소란스러운 세상 속 고요와 평온의 속삭임",
-  });
-});
+/** /posts 정적 파일 서빙 */
+const POSTS_DIR =
+  process.env.POSTS_DIR || path.resolve(__dirname, "../client/public/posts");
 
-/**
- * (유지) 올해의 패션 트렌드
- */
-app.get("/api/trend", (req, res) => {
-  res.json({
-    title: "2026 패션 트렌드",
-    trends: ["미니멀 실루엣", "테크웨어 감성", "젠더리스 스타일"],
-  });
-});
+app.use("/posts", express.static(POSTS_DIR));
 
-/**
- * (유지) 스타일링 팁
- */
-app.get("/api/styling", (req, res) => {
-  res.json({
-    title: "스타일링 팁",
-    tips: ["톤온톤 컬러 매칭 활용", "과한 로고보다 소재에 집중", "신발로 포인트 주기"],
-  });
-});
-
-/**
- * (유지) DB 헬스체크
- */
-app.get("/api/health", async (req, res) => {
+/** health check */
+app.get("/api/health", async (_req, res) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
     res.json({ ok: true, db: true });
@@ -62,19 +47,16 @@ app.get("/api/health", async (req, res) => {
   }
 });
 
-/**
- * (유지) Auth / Me 라우터
- */
+/** routes */
 app.use("/api/auth", authRouter);
 app.use("/api/me", meRouter);
-
-/**
- * (추가) Posts 라우터 (bookmark 토글)
- */
-app.use("/api/posts", postsRouter);
-
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
-});
-
+app.use("/api/posts", optionalAuth, postsRouter);
 app.use("/api/bookmarks", bookmarksRouter);
+app.use("/api/comments", commentsRouter);
+
+const PORT = Number(process.env.PORT || 3000);
+
+app.listen(PORT, () => {
+  console.log(`✅ Server running on http://localhost:${PORT}`);
+  console.log("📂 Serving /posts from:", POSTS_DIR);
+});

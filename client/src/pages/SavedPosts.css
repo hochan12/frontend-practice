@@ -1,62 +1,36 @@
-/* 기존 PageLayout.css의 .pageWrap / .pageTitle / .pageEmpty는 그대로 쓰고,
-   저장 페이지의 그리드만 “메인 피드처럼” 따로 스타일링 */
+/* ✅ SavedPosts도 Home과 100% 동일하게: 무조건 3열 그리드 */
+.thumbGrid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  align-items: start !important;
 
-.savedGridWrap {
-  width: 100%;
-  padding: 0 24px 28px;
-  box-sizing: border-box;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
 }
 
-/* ✅ “세 개씩 여러 줄” + 중앙 정렬 + 너무 커지지 않게 max 폭 제한 */
-.savedGrid {
-  width: min(980px, 100%);
-  margin: 0 auto;
+/* 카드도 Home과 동일 */
+.thumbCard {
+  border: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  text-align: left !important;
 
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  position: relative !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+
+  aspect-ratio: 1 / 1 !important;
+  width: 100% !important;
+  display: block !important;
 }
 
-/* ✅ 카드 비율: 메인 피드 썸네일 느낌(정사각에 가깝게) */
-.savedCard {
-  appearance: none;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-
-  border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-
-  /* 카드 자체가 “썸네일 박스” 역할 */
-  aspect-ratio: 1 / 1;
-  background: rgba(0, 0, 0, 0.06);
-}
-
-.savedImg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-}
-
-/* hover(선택사항) */
-.savedCard:hover {
-  filter: brightness(0.98);
-}
-
-/* 반응형: 화면 좁으면 2열/1열 */
-@media (max-width: 900px) {
-  .savedGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-  }
-}
-
-@media (max-width: 520px) {
-  .savedGrid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
+.thumbImg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: cover !important;
 }

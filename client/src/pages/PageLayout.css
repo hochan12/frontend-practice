@@ -67,3 +67,10 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* client/src/pages/PageLayout.css 맨 아래에 추가 */
+
+.pageTopSpacer {
+  height: 44px; /* SavedPosts의 타이틀 높이/여백 느낌 맞추는 용도 */
+}
+

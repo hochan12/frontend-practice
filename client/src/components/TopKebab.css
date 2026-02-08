@@ -1,0 +1,80 @@
+/* client/src/components/TopKebab.css */
+
+/* ✅ 오른쪽 상단: Magazine top(27.9px)과 데칼코마니 */
+.topKebabWrap {
+  position: fixed;
+  top: 27.9140625px; /* Magazine과 같은 높이 */
+  right: 48px;       /* 오른쪽도 여백 48px로 맞춤(원하면 24px로 바꿔도 됨) */
+  z-index: 9999;
+}
+
+.topKebabBtn {
+  width: 44px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* 바깥 클릭용 */
+.topKebabOverlay {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 9998;
+}
+
+/* 드롭다운 */
+.topKebabMenu {
+  position: fixed;
+  top: 27.9140625px;
+  right: 48px;
+  transform: translateY(46px);
+
+  width: 180px;
+  padding: 8px;
+
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 10000;
+}
+
+.topKebabItem {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+
+  border-radius: 10px;
+  border: 0;
+  background: transparent;
+
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.topKebabItem:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.topKebabDivider {
+  height: 1px;
+  margin: 6px 0;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.topKebabItem.danger {
+  color: #d32f2f;
+}

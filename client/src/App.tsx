@@ -1,7 +1,9 @@
+// client/src/App.tsx
 import { useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import Sidebar from "./components/Sidebar";
+import TopKebab from "./components/TopKebab";
 
 import Home from "./pages/Home";
 import Color from "./pages/Color";
@@ -16,18 +18,13 @@ import Register from "./pages/Register";
 import { useAuthStore } from "./store/authStore";
 import "./App.css";
 
-// ✅ 보호 라우트 (로그인 안 했으면 /login + 원래 목적지 저장)
 function ProtectedRoute({ children }: { children: JSX.Element }) {
   const user = useAuthStore((s) => s.user);
   const isHydrated = useAuthStore((s) => s.isHydrated);
   const location = useLocation();
 
   if (!isHydrated) return <div style={{ padding: 16 }}>Loading...</div>;
-
-  if (!user) {
-    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
-  }
-
+  if (!user) return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   return children;
 }
 
@@ -47,18 +44,18 @@ export default function App() {
 
       {/* 오른쪽 */}
       <main className="right">
+        {/* ✅ 오른쪽 상단 kebab */}
+        <TopKebab />
+
         <Routes>
-          {/* 공개 */}
           <Route path="/" element={<Home />} />
           <Route path="/color" element={<Color />} />
           <Route path="/trend" element={<Trend />} />
           <Route path="/styling" element={<Styling />} />
 
-          {/* 인증 */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          {/* 보호 */}
           <Route
             path="/tags"
             element={

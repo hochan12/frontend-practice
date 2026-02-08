@@ -7,9 +7,6 @@
   top: 50%;
   transform: translateY(-50%); /* ✅ 진짜 정중앙 */
 
-  /* ✅ 가로 위치(열)는 지금처럼 고정: 왼쪽에서 떨어진 값으로 맞춤 */
-
-  /* ✅ 기존 너비 정책 유지 */
   width: fit-content;
 
   display: flex;
@@ -48,11 +45,21 @@
 
 /* ===== kebab 메뉴 (Sidebar와 완전히 분리) ===== */
 
-/* Magazine 링크 */
+/* ✅ Magazine 링크: "저장한 항목 제목" top(27.914px)에 정확히 맞춤 */
 .brandLink {
   text-decoration: none;
   color: inherit;
   display: inline-block;
+
+  position: fixed;
+  left: 48px;              /* ✅ 왼쪽 패딩과 동일(현재 .left padding-left=48px) */
+  top: 27.9140625px;       /* ✅ 콘솔에서 나온 값 그대로 */
+  z-index: 9999;
+}
+
+/* 기본 h1 margin 제거(미세 오차 방지) */
+.brandLink .brand {
+  margin: 0;
 }
 
 /* 점 세개 버튼: 왼쪽 맨 아래 고정 */
@@ -110,7 +117,6 @@
   padding: 10px;
   box-sizing: border-box;
 
-
   border-radius: 10px;
   border: 0;
   background: transparent;
@@ -137,6 +143,7 @@
 }
 
 .sidebar {
-   position: relative;  /* ✅ menu 가운데 정렬 기준 */
+  position: relative;  /* ✅ menu 가운데 정렬 기준 */
   height: 100vh;       /* ✅ 화면 높이 기준 */
 }
+

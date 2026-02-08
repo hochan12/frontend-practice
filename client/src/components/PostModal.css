@@ -1,57 +1,59 @@
+/* =========================
+   Overlay / Dialog
+========================= */
 .pmOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.55);
+  z-index: 9999;
+  padding: 16px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-  padding: 16px;
-}
 
-/* 오픈 애니메이션(배경 페이드) */
-.pmOverlay {
+  background: rgba(0,0,0,0.55);
+
   opacity: 0;
   transition: opacity 0.22s ease;
 }
-.pmOverlay.open {
-  opacity: 1;
-}
+.pmOverlay.open { opacity: 1; }
 
 .pmDialog {
   width: min(1080px, 95vw);
   height: min(720px, 85vh);
+  min-height: 0;
+
   background: #fff;
   border-radius: 16px;
   overflow: hidden;
+
   display: grid;
   grid-template-columns: 1.4fr 1fr;
-  min-height: 0;
 
-  /* 오픈 애니메이션(모달 팝) */
   opacity: 0;
   transform: translateY(16px) scale(0.98);
   transition:
     opacity 0.22s ease,
     transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 }
-
 .pmDialog.open {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
 
-/* ===== 왼쪽(이미지) ===== */
+/* =========================
+   Left (Media)
+========================= */
 .pmMedia {
   position: relative;
   background: #111;
+  min-width: 0;
+  min-height: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 0;
-  min-height: 0;
 }
-
 .pmMediaInner {
   width: 100%;
   height: 100%;
@@ -59,7 +61,6 @@
   align-items: center;
   justify-content: center;
 }
-
 .pmImg {
   max-width: 100%;
   max-height: 100%;
@@ -69,7 +70,7 @@
   display: block;
 }
 
-/* 네비 */
+/* nav */
 .pmNav {
   position: absolute;
   top: 50%;
@@ -83,10 +84,7 @@
   font-size: 22px;
   line-height: 38px;
 }
-.pmNav:disabled {
-  opacity: 0.35;
-  cursor: default;
-}
+.pmNav:disabled { opacity: 0.35; cursor: default; }
 .pmPrev { left: 12px; }
 .pmNext { right: 12px; }
 
@@ -107,17 +105,17 @@
   background: rgba(255,255,255,0.45);
   cursor: pointer;
 }
-.pmDot.isActive {
-  background: rgba(255,255,255,0.95);
-}
+.pmDot.isActive { background: rgba(255,255,255,0.95); }
 
-/* ===== 오른쪽(패널) ===== */
+/* =========================
+   Right (Side)
+========================= */
 .pmSide {
+  min-width: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   background: #fff;
-  min-width: 0;
-  min-height: 0;
 }
 
 .pmHeader {
@@ -125,17 +123,15 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 14px 14px;
+  padding: 14px;
   border-bottom: 1px solid rgba(0,0,0,0.08);
 }
-
 .pmProfile {
   display: flex;
   align-items: center;
   gap: 10px;
   min-width: 0;
 }
-
 .pmAvatar {
   width: 34px;
   height: 34px;
@@ -147,7 +143,6 @@
   font-size: 14px;
   flex: 0 0 auto;
 }
-
 .pmName {
   font-weight: 800;
   font-size: 14px;
@@ -156,7 +151,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .pmClose {
   border: 0;
   background: transparent;
@@ -165,13 +159,13 @@
   padding: 6px 8px;
 }
 
-/* 내용 스크롤 영역 */
+/* scrollable body */
 .pmBody {
   padding: 14px;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  overflow: auto;
 }
 
 .pmCaption {
@@ -179,7 +173,6 @@
   line-height: 1.6;
   color: rgba(0,0,0,0.82);
 }
-
 .pmMetaRow {
   display: flex;
   align-items: center;
@@ -187,34 +180,25 @@
   gap: 12px;
   flex-wrap: wrap;
 }
-
 .pmDate {
   font-size: 12px;
   color: rgba(0,0,0,0.55);
 }
 
-.pmTags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+.pmDivider {
+  height: 1px;
+  background: rgba(0,0,0,0.08);
+  margin: 4px 0;
 }
 
-.pmTag {
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(0,0,0,0.12);
-  color: rgba(0,0,0,0.72);
-  background: #fff;
-}
-
-/* 좋아요/버튼 라인 */
+/* =========================
+   Like / Save row
+========================= */
 .pmLikeLine {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-
 .pmLikeCountBtn {
   border: 0;
   background: transparent;
@@ -228,7 +212,6 @@
   display: flex;
   gap: 8px;
 }
-
 .pmActionBtn {
   border: 1px solid rgba(0,0,0,0.12);
   background: #fff;
@@ -242,49 +225,32 @@
   user-select: none;
   transition: transform 0.12s ease, border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
 }
+.pmIcon { font-size: 13px; line-height: 1; }
 
-.pmIcon {
-  font-size: 13px;
-  line-height: 1;
-}
-
-/* 하트(좋아요) 활성 스타일 */
 .pmLikeBtn.isLiked {
   color: #e53935;
   border-color: rgba(229,57,53,0.35);
   background: rgba(229,57,53,0.06);
 }
-.pmLikeBtn.isLiked .pmIcon {
-  color: #e53935;
-}
+.pmLikeBtn.isLiked .pmIcon { color: #e53935; }
 
-/* 저장 활성 스타일(노랑) */
 .pmSaveBtn.isSaved {
   color: #f9a825;
   border-color: rgba(249,168,37,0.45);
   background: rgba(249,168,37,0.10);
 }
-.pmSaveBtn.isSaved .pmIcon {
-  color: #f9a825;
-}
+.pmSaveBtn.isSaved .pmIcon { color: #f9a825; }
 
-/* 통통 애니메이션 */
 @keyframes pmPop {
   0% { transform: scale(1); }
   40% { transform: scale(1.12); }
   100% { transform: scale(1); }
 }
-.pmActionBtn.isPop {
-  animation: pmPop 0.26s ease;
-}
+.pmActionBtn.isPop { animation: pmPop 0.26s ease; }
 
-.pmDivider {
-  height: 1px;
-  background: rgba(0,0,0,0.08);
-  margin: 4px 0;
-}
-
-/* ✅ 비로그인 안내 박스 */
+/* =========================
+   Auth Box
+========================= */
 .pmAuthBox {
   border: 1px solid rgba(0,0,0,0.10);
   background: rgba(0,0,0,0.03);
@@ -294,19 +260,16 @@
   flex-direction: column;
   gap: 10px;
 }
-
 .pmAuthText {
   font-size: 13px;
   color: rgba(0,0,0,0.80);
   font-weight: 600;
 }
-
 .pmAuthActions {
   display: flex;
   gap: 8px;
   align-items: center;
 }
-
 .pmAuthBtn {
   border: 1px solid rgba(0,0,0,0.14);
   background: #fff;
@@ -316,7 +279,6 @@
   font-size: 13px;
   font-weight: 800;
 }
-
 .pmAuthGhost {
   border: 0;
   background: transparent;
@@ -326,7 +288,9 @@
   opacity: 0.7;
 }
 
-/* 댓글 */
+/* =========================
+   Comments
+========================= */
 .pmComments {
   display: flex;
   flex-direction: column;
@@ -335,15 +299,24 @@
 
 .pmCommentRow {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
   font-size: 13px;
   line-height: 1.45;
+  min-width: 0;
 }
-
 .pmCommentName {
   font-weight: 800;
+  flex: 0 0 auto;
+}
+.pmCommentText {
+  flex: 1 1 auto;
+  min-width: 0;
+  word-break: break-word;
 }
 
+/* input row */
 .pmCommentInputRow {
   display: flex;
   gap: 8px;
@@ -358,11 +331,7 @@
   font-size: 13px;
   outline: none;
 }
-
-.pmInput:focus {
-  border-color: rgba(0,0,0,0.28);
-}
-
+.pmInput:focus { border-color: rgba(0,0,0,0.28); }
 .pmInput:disabled {
   background: rgba(0,0,0,0.03);
   cursor: not-allowed;
@@ -377,8 +346,106 @@
   font-size: 13px;
   font-weight: 700;
 }
+.pmPostBtn:disabled { opacity: 0.45; cursor: not-allowed; }
 
-.pmPostBtn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
+/* 작은 버튼(댓글 액션용) */
+.pmPostBtnSm {
+  padding: 8px 10px;
+  font-size: 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+.pmGhost { opacity: 0.78; }
+.pmDanger {
+  border: 1px solid rgba(0,0,0,0.12);
+  background: #ffffff;
+  color: #000000;
+}
+
+.pmCommentActions {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+/* 수정 input */
+.pmCommentEditInput {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ✅ 삭제 확인 박스: "수정/삭제 버튼 대신" 오른쪽에 깔끔하게 */
+.pmDeleteConfirm {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.12);
+  flex-wrap: nowrap;
+  max-width: 100%;
+
+  padding: 6px 8px;              /* pmCommentRow와 동일한 체감 */
+  min-height: 32px;              /* 댓글 한 줄 높이 */
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.pmDeleteText {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(0,0,0,0.75);
+  line-height: 1.4;
+  color: rgba(0,0,0,0.75);
+  white-space: nowrap;
+}
+.pmDeleteBtns {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+/* 삭제 확인 중엔 레이아웃이 줄어들어도 안 찢어지게 */
+.pmCommentRow.isDeleting .pmCommentText {
+  max-width: 360px;
+}
+
+/* ✅ 안전장치: 삭제 확인 중엔 기존 수정/삭제 버튼 영역을 강제로 숨김 */
+.pmCommentRow.isDeleting .pmCommentActions {
+  display: none !important;
+}
+
+/* ✅ 삭제 확인 박스가 좁아질 때 버튼이 찢어지지 않게
+.pmDeleteConfirm {
+  flex-wrap: nowrap;
+  max-width: 100%;
+}
+.pmDeleteBtns {
+  flex: 0 0 auto;
+}*/
+
+/* PostModal.css 맨 아래에 추가 */
+.pmNoImage {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: rgba(255,255,255,0.85);
+  text-align: center;
+  padding: 24px;
+}
+
+.pmNoImageTitle {
+  font-weight: 900;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.pmNoImageSub {
+  font-size: 13px;
+  opacity: 0.8;
 }
