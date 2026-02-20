@@ -30,23 +30,51 @@
   aspect-ratio: 1 / 1 !important;
   width: 100% !important;
   display: block !important;
+
+  /* ✅ 카드만 아주 얇게 움직이게 (사진은 안 건드림) */
+  transition: transform 0.14s ease, box-shadow 0.14s ease !important;
 }
 
-/* ✅ 썸네일 */
+/* ✅ 썸네일 (절대 확대/크롭 변형 없음) */
 .postThumb {
   width: 100% !important;
   height: 100% !important;
   display: block !important;
   object-fit: cover !important;
+
+  /* ✅ 이미지 자체는 움직이지 않는다 */
+  transform: none !important;
+  transition: none !important;
+}
+
+/* ✅ Hover: 사진은 그대로, "어두워지는 레이어" + 카드 미세 lift */
+.postCard::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+
+  /* 매거진 느낌: 과하지 않게 */
+  background: rgba(0, 0, 0, 0.18) !important;
+  opacity: 0 !important;
+  transition: opacity 0.14s ease !important;
+  pointer-events: none !important;
+}
+
+.postCard:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.10) !important;
+}
+
+.postCard:hover::after {
+  opacity: 1 !important;
 }
 
 /* =========================
    ✅ Skeleton (처음 로딩용)
-   - 구조/배치는 그대로, 스켈레톤만 표시
 ========================= */
 .postCard--skeleton {
   cursor: default !important;
-  background: rgba(0, 0, 0, 0.06) !important;
+  background: rgba(0, 0, 0, 0.045) !important;
 }
 
 .postSkelShine {
@@ -54,9 +82,9 @@
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.55) 50%,
-    rgba(255, 255, 255, 0) 100%
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.42) 50%,
+    rgba(255,255,255,0) 100%
   );
   transform: translateX(-60%);
   animation: postSkelMove 1.05s ease-in-out infinite;
@@ -67,11 +95,11 @@
   100% { transform: translateX(60%); }
 }
 
+/* 로딩 후 이미지 페이드인 */
 .postThumb {
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease !important;
 }
-
 .postThumb[src] {
   opacity: 1;
 }
@@ -79,20 +107,27 @@
 /* ✅ 에러/빈 상태도 그리드 안에서 표시(레이아웃 안 흔들리게) */
 .postGridMessage {
   grid-column: 1 / -1 !important;
-  padding: 16px !important;
+  padding: 24px 8px !important;
+  text-align: center !important;
   opacity: 0.7 !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
 }
 
-/* =========================
-   ✅ 그리드 메시지 (에러 / 빈 상태)
-   - 3열 그리드 전체 폭 차지
-   - 스켈레톤/카드 구조 절대 안 깨짐
-========================= */
-.postGridMessage {
-  grid-column: 1 / -1;   /* ⭐ 3칸 전체 차지 */
-  padding: 24px 8px;
-  text-align: center;
-  opacity: 0.7;
-  font-size: 14px;
-  line-height: 1.6;
+.postCard,
+.thumbCard {
+  transition:
+    transform var(--motion-fast),
+    box-shadow var(--motion-fast);
 }
+
+.postCard:hover,
+.thumbCard:hover {
+  transform: translateY(var(--lift-hover));
+}
+
+.postCard:active,
+.thumbCard:active {
+  transform: translateY(0) scale(var(--scale-active));
+}
+

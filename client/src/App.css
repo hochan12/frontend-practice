@@ -1,5 +1,5 @@
 /* client/src/App.css */
-
+@import "./styles/design-tokens.css";
 .layout {
   display: flex;
   height: 100vh;
@@ -22,4 +22,42 @@
   overflow-x: hidden; /* ✅ 가로 스크롤 제거 */
 
   position: relative;
+}
+
+/* client/src/App.css - add at bottom */
+
+/* 전체 톤 맞추기 */
+.left {
+  color: rgba(0,0,0,0.86);
+}
+
+/* 오른쪽 패널: 스크롤바 너무 튀지 않게 */
+.right {
+  background: transparent;
+  scrollbar-gutter: stable;
+}
+
+/* (선택) 웹킷 스크롤바 톤 */
+.right::-webkit-scrollbar { width: 10px; }
+.right::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.12);
+  border-radius: 999px;
+  border: 3px solid rgba(0,0,0,0.0);
+  background-clip: padding-box;
+}
+.right::-webkit-scrollbar-track { background: transparent; }
+
+body {
+  color: var(--gray-800);
+  background: var(--gray-bg);
+}
+
+h1, h2, h3 {
+  color: var(--gray-900);
+}
+
+/* ===== tokens hook (App) ===== */
+body {
+  color: var(--gray-850);
+  background: var(--gray-bg);
 }

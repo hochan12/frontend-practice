@@ -1,5 +1,7 @@
-import "./Trend.css";
-import "./PageLayout.css";
+// client/src/pages/Trend.tsx
+import "./MagazinePage.css";     // ✅ 공통 타이포/그리드 규칙
+import "./PageLayout.css";       // ✅ pageLayout/pageCard 유지
+import "./Trend.css";            // ✅ Trend 고유 스타일(그대로 유지)
 
 import img1 from "../assets/1남성.jpg";
 import img3 from "../assets/3남성.jpg";
@@ -107,63 +109,65 @@ function getGridCols(count: number) {
 
 export default function Trend() {
   return (
-    <div className="pageLayout">
-      <div className="pageCard">
-        <div className="trendPage">
-          <section className="trendIntro">
-            <h2 className="trendTitle">올해의 트렌드</h2>
-            <p className="trendText">{introText}</p>
-          </section>
+    <div className="magPage">
+      <div className="pageLayout">
+        <div className="pageCard">
+          <div className="trendPage">
+            <section className="trendIntro">
+              <h2 className="sectionTitle">올해의 트렌드</h2>
+              <p className="trendText">{introText}</p>
+            </section>
 
-          <div className="trendSections">
-            {sections.map((sec, idx) => {
-              const isLast = idx === sections.length - 1;
+            <div className="trendSections">
+              {sections.map((sec, idx) => {
+                const isLast = idx === sections.length - 1;
 
-              return (
-                <section className="trendSection" key={idx}>
-                  <h3 className="sectionTitle">{sec.title}</h3>
+                return (
+                  <section className="trendSection" key={idx}>
+                    <h3 className="sectionTitle">{sec.title}</h3>
 
-                  <div className={`imgRow imgCount${getGridCols(sec.images.length)}`}>
-                    {sec.images.map((img, i) => (
-                      <div className="imgCard" key={i}>
-                        <img className="img" src={img.src} alt={img.alt} />
-                      </div>
-                    ))}
-                  </div>
-
-                  {sec.leadAfterImages && (
-                    <p className="sectionLead">{sec.leadAfterImages}</p>
-                  )}
-
-                  <p className="sectionDesc">{sec.description}</p>
-
-                  {!isLast && sec.extraDescription && (
-                    <p className="sectionDesc sectionDescExtra">{sec.extraDescription}</p>
-                  )}
-
-                  {sec.extraImages && (
-                    <div className={`imgRow imgCount${getGridCols(sec.extraImages.length)}`}>
-                      {sec.extraImages.map((img, i) => (
-                        <div className="imgCard" key={`extra-${idx}-${i}`}>
+                    <div className={`imgRow imgCount${getGridCols(sec.images.length)}`}>
+                      {sec.images.map((img, i) => (
+                        <div className="imgCard" key={i}>
                           <img className="img" src={img.src} alt={img.alt} />
                         </div>
                       ))}
                     </div>
-                  )}
 
-                  {sec.leadAfterExtraImages && (
-                    <p className="sectionLead">{sec.leadAfterExtraImages}</p>
-                  )}
+                    {sec.leadAfterImages && (
+                      <p className="sectionLead">{sec.leadAfterImages}</p>
+                    )}
 
-                  {isLast && sec.extraDescription && (
-                    <p className="sectionDesc sectionDescExtra">{sec.extraDescription}</p>
-                  )}
-                </section>
-              );
-            })}
+                    <p className="sectionDesc">{sec.description}</p>
+
+                    {!isLast && sec.extraDescription && (
+                      <p className="sectionDesc sectionDescExtra">{sec.extraDescription}</p>
+                    )}
+
+                    {sec.extraImages && (
+                      <div className={`imgRow imgCount${getGridCols(sec.extraImages.length)}`}>
+                        {sec.extraImages.map((img, i) => (
+                          <div className="imgCard" key={`extra-${idx}-${i}`}>
+                            <img className="img" src={img.src} alt={img.alt} />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {sec.leadAfterExtraImages && (
+                      <p className="sectionLead">{sec.leadAfterExtraImages}</p>
+                    )}
+
+                    {isLast && sec.extraDescription && (
+                      <p className="sectionDesc sectionDescExtra">{sec.extraDescription}</p>
+                    )}
+                  </section>
+                );
+              })}
+            </div>
+
+            <PageComments pageKey="trend" />
           </div>
-
-          <PageComments pageKey="trend" />
         </div>
       </div>
     </div>

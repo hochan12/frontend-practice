@@ -1,0 +1,67 @@
+/* =========================
+   DESIGN TOKENS — MAGAZINE
+   무채색 미니멀 / radius 18px
+========================= */
+
+:root {
+  /* Radius */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 18px; /* ⭐ 대표값 */
+  --radius-lg: 22px;
+
+  /* Shadow (단 하나의 규칙) */
+  --shadow-soft: 0 10px 30px rgba(0,0,0,0.08);
+
+  /* Gray Scale */
+  --gray-900: rgba(0,0,0,0.88); /* 제목 */
+  --gray-800: rgba(0,0,0,0.82); /* 본문 */
+  --gray-700: rgba(0,0,0,0.65); /* 보조 텍스트 */
+  --gray-600: rgba(0,0,0,0.45);
+
+  --gray-border: rgba(0,0,0,0.12);
+  --gray-border-strong: rgba(0,0,0,0.18);
+
+  --gray-bg: #ffffff;
+  --gray-bg-soft: rgba(0,0,0,0.03);
+  --gray-bg-hover: rgba(0,0,0,0.05);
+
+  /* Interaction */
+  --hover-lift: -1px;
+  --transition-fast: 0.12s ease;
+  --transition-mid: 0.18s ease;
+}
+
+/* client/src/styles/design-tokens.css */
+/* ✅ Magazine – Design Tokens (무채색 미니멀) */
+
+:root {
+  /* ===== radius ===== */
+  --radius-xs: 10px;
+  --radius-sm: 12px;
+  --radius-md: 18px;     /* ✅ 대표값 (너가 선택한 18px) */
+  --radius-lg: 22px;
+
+  /* ===== grayscale (텍스트/보더/배경) ===== */
+  --gray-900: rgba(0,0,0,0.92);
+  --gray-850: rgba(0,0,0,0.88);
+  --gray-800: rgba(0,0,0,0.82);
+  --gray-700: rgba(0,0,0,0.70);
+  --gray-600: rgba(0,0,0,0.62);
+  --gray-550: rgba(0,0,0,0.55);
+
+  --gray-border: rgba(0,0,0,0.12);
+  --gray-line: rgba(0,0,0,0.08);
+
+  --gray-bg: #ffffff;
+  --gray-bg-soft: rgba(0,0,0,0.03);
+  --gray-bg-hover: rgba(0,0,0,0.05);
+
+  /* ===== shadow (규칙 1개) ===== */
+  --shadow-soft: 0 10px 30px rgba(0,0,0,0.08);
+  --shadow-hover: 0 14px 38px rgba(0,0,0,0.12);
+
+  /* ===== hover strength ===== */
+  --hover-lift: -2px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}

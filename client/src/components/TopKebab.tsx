@@ -12,13 +12,19 @@ export default function TopKebab() {
 
   return (
     <>
+      {/* ✅ 이 wrapper가 핵심 */}
       <div className="topKebabWrap">
         <button
           className="topKebabBtn"
           onClick={() => setOpen((v) => !v)}
-          aria-label="more menu"
+          aria-label="open menu"
         >
-          ⋯
+          <img
+            src="/brand/logo.png"
+            alt="Magazine menu"
+            className="topKebabLogo"
+            draggable={false}
+          />
         </button>
       </div>
 
@@ -27,7 +33,11 @@ export default function TopKebab() {
           <div className="topKebabOverlay" onClick={() => setOpen(false)} />
 
           <div className="topKebabMenu">
-            <Link className="topKebabItem" to="/saved" onClick={() => setOpen(false)}>
+            <Link
+              className="topKebabItem"
+              to="/saved"
+              onClick={() => setOpen(false)}
+            >
               저장한 항목
             </Link>
 

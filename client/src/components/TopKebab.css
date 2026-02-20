@@ -1,25 +1,40 @@
 /* client/src/components/TopKebab.css */
 
-/* ✅ 오른쪽 상단: Magazine top(27.9px)과 데칼코마니 */
+/* ===== 오른쪽 상단 로고 버튼 ===== */
 .topKebabWrap {
   position: fixed;
-  top: 27.9140625px; /* Magazine과 같은 높이 */
-  right: 48px;       /* 오른쪽도 여백 48px로 맞춤(원하면 24px로 바꿔도 됨) */
+  top: 28px;
+  right: 32px;          /* ✅ 진짜 화면 맨 오른쪽 */
   z-index: 9999;
 }
 
+/* 버튼: 박스 완전 제거 */
 .topKebabBtn {
-  width: 44px;
-  height: 36px;
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  background: #ffffff;
+  all: unset;
   cursor: pointer;
-  font-size: 22px;
-  line-height: 1;
+  display: block;
+  position: fixed;
+  top: 22.5px;
+  right: 16px;
 }
 
-/* 바깥 클릭용 */
+/* 로고 이미지 자체 */
+.topKebabLogo {
+  width: 80px;          /* ✅ 크게 */
+  height: auto;
+  display: block;
+
+  transition:
+    transform 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.topKebabBtn:hover .topKebabLogo {
+  transform: translateY(-1px);
+  opacity: 0.85;
+}
+
+/* ===== 바깥 클릭용 ===== */
 .topKebabOverlay {
   position: fixed;
   inset: 0;
@@ -27,12 +42,12 @@
   z-index: 9998;
 }
 
-/* 드롭다운 */
+/* ===== 드롭다운 ===== */
 .topKebabMenu {
   position: fixed;
-  top: 27.9140625px;
-  right: 48px;
-  transform: translateY(46px);
+  top: 28px;
+  right: 32px;
+  transform: translateY(45px);
 
   width: 180px;
   padding: 8px;
@@ -52,7 +67,6 @@
   display: block;
   width: 100%;
   padding: 10px;
-  box-sizing: border-box;
 
   border-radius: 10px;
   border: 0;
@@ -62,7 +76,7 @@
   font-size: 14px;
   cursor: pointer;
   text-decoration: none;
-  color: inherit;
+  color: rgba(0, 0, 0, 0.82);
 }
 
 .topKebabItem:hover {
@@ -77,4 +91,30 @@
 
 .topKebabItem.danger {
   color: #d32f2f;
+}
+
+.topKebabMenu {
+  border-radius: var(--radius-md);
+  border-color: var(--gray-border);
+  box-shadow: var(--shadow-soft);
+}
+
+.topKebabItem {
+  color: var(--gray-800);
+}
+
+.topKebabItem:hover {
+  background: var(--gray-bg-hover);
+}
+
+.topKebabBtn {
+  transition: transform var(--motion-fast);
+}
+
+.topKebabBtn:hover {
+  transform: translateY(var(--lift-hover));
+}
+
+.topKebabBtn:active {
+  transform: translateY(0) scale(var(--scale-active));
 }

@@ -58,10 +58,12 @@
   padding: 10px 12px;
   font-size: 13px;
   outline: none;
+  font-family: inherit;
 }
 
 .pcInput:focus {
-  border-color: rgba(0,0,0,0.28);
+  border-color: rgba(0,0,0,0.22);
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.06);
 }
 
 .pcInput:disabled {
@@ -69,7 +71,7 @@
   cursor: not-allowed;
 }
 
-/* 버튼(PostModal의 pmPostBtn 톤) */
+/* 버튼 기본 */
 .pcBtn {
   border: 1px solid rgba(0,0,0,0.12);
   background: #fff;
@@ -78,6 +80,9 @@
   cursor: pointer;
   font-size: 13px;
   font-weight: 700;
+  font-family: inherit;
+  -webkit-appearance: none;  /* ✅ 브라우저 기본 렌더링 차이 제거 */
+  appearance: none;
 }
 
 .pcBtn:disabled {
@@ -85,46 +90,79 @@
   cursor: not-allowed;
 }
 
-.pcBtnSm {
-  padding: 8px 10px;
-  font-size: 12px;
-  line-height: 1;
-  border-radius: 10px;
-  font-weight: 700;
-}
-
-.pcGhost {
-  opacity: 0.78;
-}
-
-.pcDanger {
-  border-color: rgba(229,57,53,0.35);
-  color: #e53935;
-  background: rgba(229,57,53,0.06);
-}
-
+/* ✅ 액션 영역: “한 줄 높이 기준”을 여기서 고정 (착시 제거 핵심) */
 .pcActions {
   display: flex;
   gap: 8px;
   flex: 0 0 auto;
+
+  height: 28px;                 /* ✅ 기준 높이 */
+  align-items: center !important; /* ✅ 줄 기준 정렬 고정 */
 }
 
+/* ✅ 작은 버튼: height는 이미 맞는데 “커 보이는 착시”를 제거하는 세팅 */
+.pcBtnSm {
+  height: 28px !important;
+  padding: 0 10px !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  line-height: 1 !important;      /* ✅ 12px/28px 같은 line-height 꼬임 제거 */
+  box-sizing: border-box !important;
+
+  font-size: 12px !important;
+  border-radius: 10px !important;
+}
+
+/* 삭제 버튼(네 클래스 조합 정확히)도 동일 규격으로 “한 번 더” 못 박기 */
+button.pcBtn.pcBtnSm.pcDanger {
+  height: 28px !important;
+  padding: 0 10px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+}
+
+/* 톤 */
+.pcGhost { opacity: 0.78; }
+
+/* ✅ 삭제 버튼도 흰색 톤 통일 */
+.pcDanger {
+  border: 1px solid rgba(0,0,0,0.12) !important;
+  background: #ffffff !important;
+  color: rgba(0,0,0,0.88) !important;
+}
+
+/* 수정 input도 28px 규격 */
 .pcEditInput {
   flex: 1;
   min-width: 0;
+
+  height: 28px !important;
+  padding: 0 12px !important;
+  line-height: 28px !important;
+  border-radius: 999px !important;
+  box-sizing: border-box !important;
 }
 
 /* 삭제 확인 박스 */
 .pcDeleteConfirm {
   flex: 0 0 auto;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
 
-  padding: 8px 10px;
+  padding: 6px 8px;
+  min-height: 28px;
   border-radius: 12px;
-  background: rgba(0,0,0,0.05);
-  border: 1px solid rgba(0,0,0,0.08);
+
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.12);
+  box-sizing: border-box;
 }
 
 .pcDeleteText {
@@ -132,10 +170,75 @@
   font-weight: 700;
   color: rgba(0,0,0,0.75);
   white-space: nowrap;
+  line-height: 1;
 }
 
 .pcDeleteBtns {
   display: flex;
   gap: 8px;
   align-items: center;
+}
+
+/* 예/아니오 버튼은 더 작게 */
+.pcDeleteConfirm .pcBtnSm {
+  height: 24px !important;
+  padding: 0 8px !important;
+  font-size: 11px !important;
+  border-radius: 9px !important;
+  line-height: 1 !important;
+}
+
+/* =========================
+   ✅ FIX FINAL: 삭제 버튼이 커 보이는 착시 제거
+   - height는 이미 28px인데, line-height(12px) 때문에 글자가 떠 보임
+   - flex center + line-height:1 + appearance 제거로 완전 고정
+========================= */
+
+button.pcBtn.pcBtnSm {
+  height: 28px !important;
+  min-height: 28px !important;
+  padding: 0 10px !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  line-height: 1 !important;          /* ✅ 핵심: 12px 같은 값 제거 */
+  box-sizing: border-box !important;
+
+  -webkit-appearance: none !important; /* ✅ 브라우저 기본 버튼 스타일 영향 제거 */
+  appearance: none !important;
+}
+
+/* 삭제 버튼은 조합이 pcBtn pcBtnSm pcDanger라 한 번 더 못 박기 */
+button.pcBtn.pcBtnSm.pcDanger {
+  height: 28px !important;
+  min-height: 28px !important;
+  padding: 0 10px !important;
+  line-height: 1 !important;
+}
+
+/* 액션 영역도 줄 기준 정렬 고정 (버튼이 떠 보이는 착시 방지) */
+.pcActions {
+  height: 28px !important;
+  align-items: center !important;
+}
+
+/* =========================
+   댓글 타이틀 아래 얇은 구분선 (간격 타이트 버전)
+========================= */
+
+.pcTitle {
+  position: relative;
+  padding-bottom: 8px;  /* ✅ 아래 여백 줄임 */
+  margin-bottom: 8px;   /* ✅ 리스트/빈문구와 더 붙임 */
+}
+
+.pcTitle::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+  margin-top: 6px;      /* ✅ 선을 제목에 더 붙임 */
 }

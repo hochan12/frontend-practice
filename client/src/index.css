@@ -1,32 +1,101 @@
+/* client/src/index.css */
+@import "./styles/design-tokens.css";
+:root {
+  /* tone */
+  --bg: #f6f6f6;
+  --card: #ffffff;
+  --text: rgba(0,0,0,0.88);
+  --muted: rgba(0,0,0,0.62);
+  --line: rgba(0,0,0,0.10);
+
+  /* radius */
+  --r-sm: 10px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 18px;
+
+  /* shadow */
+  --shadow-sm: 0 1px 0 rgba(0,0,0,0.04);
+  --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
+
+  /* motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ===== Base / Tone ===== */
+:root {
+  --bg: #f6f6f6;
+  --surface: #ffffff;
+  --text: rgba(0,0,0,0.86);
+  --muted: rgba(0,0,0,0.62);
+
+  --border: rgba(0,0,0,0.10);
+  --border-strong: rgba(0,0,0,0.14);
+
+  --radius-lg: 18px;
+  --radius-md: 12px;
+
+  --shadow-sm: 0 1px 0 rgba(0,0,0,0.03);
+  --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
+
+  --focus: rgba(0,0,0,0.28);
+}
+
+html, body {
+  height: 100%;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-.menuBox {
-  display: inline-block;
-  padding: 14px 20px;
-  border: 1px solid #e5e5e5;
-  border-radius: 10px;
-  background: white;
-  color: black;
-  font-weight: 600;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
-}
+
+/* ===== menuBox (중복 제거 + 톤 통일) ===== */
 .menuBox {
   border: 1px solid #e5e5e5;
-  border-radius: 12px;
+  border-radius: var(--r-md);
   padding: 14px 22px;
 
   color: #000;
   background: #fff;
 
-  /* hover 확대를 위한 기본값 */
-  display: inline-block;      /* transform이 자연스럽게 먹게 */
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  display: inline-block;
+  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
   transform: scale(1);
+  box-shadow: var(--shadow-sm);
 }
 
 .menuBox:hover {
   transform: scale(1.04);
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+body {
+  color: var(--gray-800);
+  background: var(--gray-bg);
+}
+
+h1, h2, h3 {
+  color: var(--gray-900);
+}
+
+/* ===== Brand background micro tone ===== */
+html, body {
+  background: #fafafa;
+}
+
+/* 카드/모달/드롭다운은 그대로 white로 (대비를 만들기 위함) */
+.pageCard,
+.pmDialog,
+.topKebabMenu {
+  background: #fff;
+}
+
+:root {
+  --motion-fast: 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  --lift-hover: -2px;
+  --scale-active: 0.97;
 }

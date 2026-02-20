@@ -416,6 +416,9 @@ useEffect(() => {
 
   if (!isOpen || !post) return null;
 
+
+
+  
   // ✅ 안전장치: 이미지가 0개면 placeholder 보여주기
   const hasImage = images.length > 0 && !!images[index];
 

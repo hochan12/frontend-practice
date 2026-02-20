@@ -1,3 +1,10 @@
+.savedOffset {
+  margin-top: 35px;   /* 🔥 값 키우면 더 내려감 */
+}
+.savedGridWrap {
+  margin-top: 48px;  /* ← 여기 숫자만 조절하면 됨 */
+}
+
 /* ✅ SavedPosts도 Home과 100% 동일하게: 무조건 3열 그리드 */
 .thumbGrid {
   display: grid !important;
@@ -33,4 +40,14 @@
   height: 100% !important;
   display: block !important;
   object-fit: cover !important;
+}
+
+/* client/src/pages/SavedPosts.css - optional add */
+
+.thumbCard {
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+.thumbCard:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.10);
 }

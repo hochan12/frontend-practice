@@ -1,0 +1,206 @@
+/* client/src/pages/MagazinePage.css */
+
+/* =========================
+   Base
+========================= */
+.magPage {
+  width: 100%;
+  color: rgba(0, 0, 0, 0.88);
+  background: transparent !important;
+}
+
+/* ✅ Trend/Color/Styling 시작 위치 내리기 */
+.magPage .pageLayout {
+  padding-top: 0px; /* 숫자만 조절 */
+}
+
+/* 카드 흰색 제거 */
+.magPage .pageCard {
+  padding: 36px 40px;
+  box-sizing: border-box;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 카드 안 전체 리듬 */
+.magPage .pageCard > * + * {
+  margin-top: 18px;
+}
+
+/* =========================
+   Titles
+========================= */
+
+/* ✅ 각 페이지 최상단 타이틀(h2.sectionTitle)만 키우기 */
+.magPage .trendIntro > .sectionTitle {
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+/* 제목 밑줄 */
+.magPage .sectionTitle::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #111;
+  opacity: 0.18;
+  margin-top: 10px;
+}
+
+/* =========================
+   Text
+========================= */
+.magPage .sectionDesc,
+.magPage .trendText,
+.magPage .pageText {
+  margin: 0;
+  max-width: 640px;
+  line-height: 1.9;
+  letter-spacing: -0.01em;
+  white-space: pre-line;
+  color: rgba(0, 0, 0, 0.82);
+  font-size: 14px;
+}
+
+.magPage p {
+  margin: 0;
+}
+
+/* ✅ 첫 문장만 살짝 강조 */
+.magPage .sectionDesc::first-line {
+  color: rgba(0, 0, 0, 0.92);
+}
+
+/* =========================
+   Rhythm hotfix
+========================= */
+.magPage .trendIntro > .sectionTitle + .trendText {
+  margin-top: 12px !important;
+}
+
+.magPage .trendIntro + .trendSections {
+  margin-top: 22px !important;
+}
+
+.magPage .trendSection > .sectionTitle + .imgRow,
+.magPage .trendSection > .sectionTitle + .sectionLead,
+.magPage .trendSection > .sectionTitle + .sectionDesc {
+  margin-top: 6px !important;   /* ← 14px → 6px */
+}
+
+.magPage .imgRow + .sectionLead,
+.magPage .imgRow + .sectionDesc {
+  margin-top: 12px !important;
+}
+
+.magPage .trendSections {
+  gap: 64px !important;
+}
+
+.magPage .trendSections + .pcWrap {
+  margin-top: 26px !important;
+}
+
+/* =========================
+   Image blocks (Trend 결)
+========================= */
+.magPage .imgRow {
+  display: grid;
+  gap: 18px;
+}
+
+/* 개수별 컬럼 */
+.magPage .imgCount1 { grid-template-columns: repeat(1, 1fr); }
+.magPage .imgCount2 { grid-template-columns: repeat(2, 1fr); }
+.magPage .imgCount3 { grid-template-columns: repeat(3, 1fr); }
+
+/* 기본 이미지 카드(Trend와 동일) */
+.magPage .imgCard {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.magPage .img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* =========================
+   ✅ HERO image (Color 상단)
+   - 여기만 강하게 override
+========================= */
+.magPage .heroImgRow {
+  margin-top: 18px;
+  justify-items: start; /* 그리드 아이템 가운데 */
+}
+
+/* ⭐ 핵심: imgCard 기본(3/4, width:100%)을 hero에서만 덮어씀 */
+.magPage .imgCard.heroImgCard {
+  width: min(360px, 100%) !important;   /* 여기 숫자로 크기 조절 */
+  aspect-ratio: 3 / 4 !important;       /* 가로형 */
+  border-radius: 16px !important;
+  overflow: hidden !important;
+}
+
+/* hero 첫 줄 강조 */
+.magPage .heroLead {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.92);
+  margin-bottom: 6px;
+}
+
+/* 제목 다음 hero 이미지 간격 */
+.magPage .trendIntro > .sectionTitle + .heroImgRow {
+  margin-top: 18px !important;
+}
+
+.magPage .heroImgRow + .trendText {
+  margin-top: 16px !important;
+}
+
+/* ✅ Magazine pages 전체를 위로 당김 (무조건 적용됨) */
+.magPage {
+  transform: translateY(-12px);
+}
+
+.magPage .trendIntro > .sectionTitle + .heroLead {
+  margin-top: 22px;   /* ← 여기 숫자로 공백 조절 (12~20px 추천) */
+}
+
+/* ✅ 4장 묶음: 2열 + 왼쪽 정렬 + 카드 사이즈 고정(너무 커지지 않게) */
+.magPage .imgRow.imgTwoFixed {
+  justify-content: start; /* 그리드 자체를 왼쪽으로 */
+  grid-template-columns: repeat(2, minmax(0, 240px)) !important; 
+  /* 220px이 지금 '3열 때 카드 크기'랑 비슷한 값이라 자연스러움
+     더 줄이고 싶으면 200~210, 더 키우고 싶으면 230~240 */
+}
+
+/* 모바일에서는 자연스럽게 1열로 */
+@media (max-width: 640px) {
+  .magPage .imgRow.imgTwoFixed {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* =========================
+   FIX: 밑줄(제목) ↔ 다음 문장 간격 줄이기
+   원인 = trendSection의 flex gap
+========================= */
+
+/* Trend.css의 gap(18px)을 제목에서만 "덜 벌어지게" 상쇄 */
+.magPage .trendSection > .sectionTitle {
+  margin-bottom: -6px !important; /* 18px gap 중 12px만큼 끌어올림 */
+}
+
+/* 밑줄 자체도 약간만 타이트하게(선 위 여백) */
+.magPage .sectionTitle::after {
+  margin-top: 10px !important; /* 기존 10px이면 줄여 */
+}
