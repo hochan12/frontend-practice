@@ -12,7 +12,6 @@ export default function MoreMenu() {
 
   const navigate = useNavigate();
   const location = useLocation();
-
   const from = useMemo(() => location.pathname, [location.pathname]);
 
   const onLogout = () => {
@@ -21,7 +20,6 @@ export default function MoreMenu() {
     navigate("/login", { replace: true, state: { from } });
   };
 
-  // init 전에는 깜빡임 방지 (원하면 없애도 됨)
   if (!isHydrated) return null;
 
   return (
@@ -34,10 +32,7 @@ export default function MoreMenu() {
         <>
           <div className="moreBackdrop" onClick={() => setOpen(false)} />
           <div className="morePanel">
-            {/* 로그인 상태에서만 접근시키고 싶으니 여기도 보호(UX) */}
-            <Link to="/tags" onClick={() => setOpen(false)} className="moreItem">
-              태그 모음
-            </Link>
+            {/* ✅ 태그 모음 삭제 */}
             <Link to="/saved" onClick={() => setOpen(false)} className="moreItem">
               저장한 항목
             </Link>
@@ -45,14 +40,14 @@ export default function MoreMenu() {
             <div className="moreDivider" />
 
             {!user ? (
-              <>
-                <Link to="/login" onClick={() => setOpen(false)} className="moreItem">
-                  Login
-                </Link>
-                <Link to="/register" onClick={() => setOpen(false)} className="moreItem">
-                  Register
-                </Link>
-              </>
+              <Link
+                to="/login"
+                onClick={() => setOpen(false)}
+                className="moreItem"
+                state={{ from }}
+              >
+                Login
+              </Link>
             ) : (
               <button onClick={onLogout} className="moreItem danger">
                 Logout

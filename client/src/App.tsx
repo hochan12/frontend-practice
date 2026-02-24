@@ -1,7 +1,7 @@
 // client/src/App.tsx
 import { useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-
+import Account from "./pages/Account";
 import Sidebar from "./components/Sidebar";
 import TopKebab from "./components/TopKebab";
 
@@ -52,6 +52,7 @@ export default function App() {
           <Route path="/color" element={<Color />} />
           <Route path="/trend" element={<Trend />} />
           <Route path="/styling" element={<Styling />} />
+          <Route path="/account" element={<Account />} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

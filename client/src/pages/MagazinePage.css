@@ -204,3 +204,18 @@
 .magPage .sectionTitle::after {
   margin-top: 10px !important; /* 기존 10px이면 줄여 */
 }
+
+/* ✅ 2장/4장 묶음: Color/Styling과 동일한 카드 폭(고정)으로 */
+.magPage .imgRow.imgTwoFixed {
+  justify-content: start;
+  justify-items: start;
+
+  grid-template-columns: repeat(2, minmax(0, 240px)) !important;
+}
+
+/* 모바일에서는 1열 */
+@media (max-width: 640px) {
+  .magPage .imgRow.imgTwoFixed {
+    grid-template-columns: 1fr !important;
+  }
+}

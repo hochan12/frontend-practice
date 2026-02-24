@@ -20,18 +20,17 @@ function signAccessToken(user) {
 router.post("/register", async (req, res) => {
   try {
     const { email, nickname, password } = req.body ?? {};
+
     if (!email || !nickname || !password) {
-      return res.status(400).json({ ok: false, error: "email/nickname/password required" });
+      return res
+        .status(400)
+        .json({ ok: false, code: "BAD_REQUEST", message: "email/nickname/password required" });
     }
 
     const hashed = await bcrypt.hash(password, 12);
 
     const user = await prisma.user.create({
-      data: {
-        email,
-        nickname,
-        password: hashed,
-      },
+      data: { email, nickname, password: hashed },
       select: { id: true, email: true, nickname: true, role: true, createdAt: true },
     });
 
@@ -43,11 +42,43 @@ router.post("/register", async (req, res) => {
       accessToken,
     });
   } catch (e) {
-    // Prisma unique constraint (email)
+    // ✅ Prisma unique constraint
+    // e.code === "P2002", e.meta.target = ["email"] or ["nickname"] or ["email","nickname"]
     if (e?.code === "P2002") {
-      return res.status(409).json({ ok: false, error: "Email already exists" });
+      const targets = Array.isArray(e?.meta?.target) ? e.meta.target : [];
+      const hasEmail = targets.includes("email");
+      const hasNickname = targets.includes("nickname");
+
+      if (hasEmail) {
+        return res.status(409).json({
+          ok: false,
+          code: "EMAIL_TAKEN",
+          message: "이미 사용중인 이메일입니다.",
+        });
+      }
+
+      if (hasNickname) {
+        return res.status(409).json({
+          ok: false,
+          code: "NICKNAME_TAKEN",
+          message: "이미 사용중인 닉네임입니다.",
+        });
+      }
+
+      // fallback
+      return res.status(409).json({
+        ok: false,
+        code: "DUPLICATE",
+        message: "이미 사용중인 값입니다.",
+      });
     }
-    return res.status(500).json({ ok: false, error: String(e) });
+
+    return res.status(500).json({
+      ok: false,
+      code: "SERVER_ERROR",
+      message: "서버 오류",
+      error: String(e),
+    });
   }
 });
 
@@ -59,7 +90,9 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body ?? {};
     if (!email || !password) {
-      return res.status(400).json({ ok: false, error: "email/password required" });
+      return res
+        .status(400)
+        .json({ ok: false, code: "BAD_REQUEST", message: "email/password required" });
     }
 
     const user = await prisma.user.findUnique({
@@ -68,12 +101,16 @@ router.post("/login", async (req, res) => {
     });
 
     if (!user) {
-      return res.status(401).json({ ok: false, error: "Invalid credentials" });
+      return res
+        .status(401)
+        .json({ ok: false, code: "INVALID_CREDENTIALS", message: "Invalid credentials" });
     }
 
     const ok = await bcrypt.compare(password, user.password);
     if (!ok) {
-      return res.status(401).json({ ok: false, error: "Invalid credentials" });
+      return res
+        .status(401)
+        .json({ ok: false, code: "INVALID_CREDENTIALS", message: "Invalid credentials" });
     }
 
     const accessToken = signAccessToken(user);
@@ -84,7 +121,12 @@ router.post("/login", async (req, res) => {
       accessToken,
     });
   } catch (e) {
-    return res.status(500).json({ ok: false, error: String(e) });
+    return res.status(500).json({
+      ok: false,
+      code: "SERVER_ERROR",
+      message: "서버 오류",
+      error: String(e),
+    });
   }
 });
 

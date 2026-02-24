@@ -79,4 +79,21 @@ router.get("/bookmarks/posts", requireAuth, async (req, res) => {
   return res.json({ ok: true, posts });
 });
 
+router.delete("/", requireAuth, async (req, res) => {
+  try {
+    const userId = req.user.id; // requireAuth가 req.user를 심어준다는 가정
+
+    // ✅ 관계 데이터 정리 (스키마에 따라 테이블명은 너 코드 기준으로 수정)
+    await prisma.comment.deleteMany({ where: { userId } });
+    await prisma.bookmark.deleteMany({ where: { userId } });
+
+    // ✅ 유저 삭제
+    await prisma.user.delete({ where: { id: userId } });
+
+    return res.status(200).json({ ok: true });
+  } catch (e) {
+    return res.status(500).json({ message: "탈퇴 처리 실패", error: String(e) });
+  }
+});
+
 export default router;

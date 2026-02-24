@@ -60,7 +60,7 @@ export default function Color() {
                 {"\n"}{"\n"}
               </div>
 
-              <div className="imgRow imgCount2">
+              <div className="imgRow imgCount2 imgTwoFixed">
                 <div className="imgCard">
                   <img className="img" src={img2} alt="2026color"/>
                 </div>
@@ -80,7 +80,7 @@ export default function Color() {
                 앞서 언급했듯 올해의 컬러인 Cloud Dancer는 어느 색과도 조화를 이루는 맑은 화이트 계열이기 때문에 이와 잘 어울리는 파스텔 톤들을 한번 주목해보면 좋을 것 같다.
               </div>
 
-              <div className="imgRow imgCount2">
+              <div className="imgRow imgCount2 imgTwoFixed">
                 <div className="imgCard">
                   <img className="img" src={img4} alt="2026color"/>
                 </div>
@@ -144,7 +144,7 @@ export default function Color() {
                 회색과 검정 계열만으로도 심심하지 않게 스타일링이 가능하다.
               </div>
               <div className="sectionDesc">
-                한 착장 안에서 톤이나 소재에서 차이를 주거나 악세서리를 추가해주는 등 별 거 아닌 것 같아 보이는 디테일들이 착장의 감도를 높여주는 역할을 한다.
+                한 착장 안에서 톤이나 소재에서 차이를 주거나 액세서리를 추가해주는 등 별 거 아닌 것 같아 보이는 디테일들이 착장의 감도를 높여주는 역할을 한다.
                 개인적으로 무채색이 주는 세련된 느낌을 좋아해 이런 스타일링을 즐겨 하는 편이다.{"\n"}{"\n"}
               </div>
               <div className="sectionDesc">

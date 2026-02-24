@@ -1,0 +1,309 @@
+/* client/src/pages/Auth.css */
+
+.authPage {
+  width: 100%;
+}
+
+.authCard {
+  max-width: 520px;
+  margin-left: 0;            /* 왼쪽 정렬(매거진 톤) */
+}
+
+.authTitle {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.authRule {
+  margin-top: 10px;
+  height: 2px;
+  width: 100%;
+  background: rgba(17, 17, 17, 0.18);
+}
+
+.authDesc {
+  margin: 14px 0 0;
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(0,0,0,0.65);
+  max-width: 520px;
+}
+
+.authForm {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.authField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.authLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(0,0,0,0.78);
+}
+
+.authInput {
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  background: rgba(255,255,255,0.65);
+  padding: 0 12px;
+  outline: none;
+  font-size: 14px;
+  transition: border-color .14s ease, box-shadow .14s ease, background .14s ease;
+}
+
+.authInput:focus {
+  border-color: rgba(0,0,0,0.30);
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
+  background: #fff;
+}
+
+.authBtn {
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: #111;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .12s ease, opacity .12s ease;
+}
+
+.authBtn:hover { transform: translateY(-1px); }
+.authBtn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.authSubRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.authLinkBtn {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(0,0,0,0.78);
+  padding: 6px 0;
+}
+
+.authErr {
+  margin-top: 10px;
+  color: #e53935;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.authOk {
+  margin-top: 10px;
+  color: rgba(0,0,0,0.78);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* client/src/pages/Auth.css */
+
+.authPage .authCard {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.authTitle {
+  font-size: 24px;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.authRule {
+  height: 2px;
+  background: #111;
+  opacity: 0.18;
+  margin-top: 10px;
+}
+
+.authDesc {
+  margin: 14px 0 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(0,0,0,0.70);
+  max-width: 520px;
+}
+
+.authForm {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.authField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.authLabel {
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(0,0,0,0.80);
+}
+
+.authInput {
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  padding: 0 12px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+  transition: border-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+.authInput:focus {
+  border-color: rgba(0,0,0,0.30);
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
+}
+
+.authBtn {
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.14);
+  background: #111;
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+
+.authBtn:hover {
+  transform: translateY(-1px);
+}
+
+.authBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.authSubRow {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.authLinkBtn {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 13px;
+  color: rgba(0,0,0,0.72);
+}
+
+.authLinkBtn:hover {
+  color: rgba(0,0,0,0.92);
+}
+
+.authErr {
+  margin-top: 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(229,57,53,0.25);
+  background: rgba(229,57,53,0.06);
+  color: rgba(229,57,53,0.95);
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.authOk {
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(0,0,0,0.55);
+}
+
+.authHint {
+  font-size: 12px;
+  color: rgba(0,0,0,0.55);
+  line-height: 1.6;
+}
+
+.authSection {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+.authSectionTitle {
+  font-size: 13px;
+  font-weight: 900;
+  color: rgba(0,0,0,0.78);
+  margin-bottom: 10px;
+}
+
+/* danger */
+.authBtnDanger {
+  background: #fff;
+  color: rgba(0,0,0,0.92);
+  border-color: rgba(229,57,53,0.35);
+}
+
+.authBtnDanger:hover {
+  transform: translateY(-1px);
+}
+
+.authConfirmBox {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(0,0,0,0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.authConfirmTitle {
+  font-weight: 900;
+  font-size: 13px;
+  color: rgba(0,0,0,0.84);
+}
+
+.authConfirmRow {
+  display: flex;
+  gap: 10px;
+}
+
+.authBtnGhost {
+  background: #fff;
+  color: rgba(0,0,0,0.86);
+}
+
+/* 성공 메시지 더 또렷하게 */
+.authOk {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(0,0,0,0.03);
+  color: rgba(0,0,0,0.82);
+  font-weight: 800;
+  font-size: 13px;
+}
+
+/* ✅ Auth pages only: start position align with top-left Magazine button */
+.magPage.authPage .pageLayout {
+  padding-top: 12px !important; /* ← 여기 숫자만 조절 (22~36px 사이 추천) */
+}

@@ -1,6 +1,6 @@
 // client/src/components/TopKebab.tsx
-import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import "./TopKebab.css";
 import { useAuthStore } from "../store/authStore";
 
@@ -9,10 +9,15 @@ export default function TopKebab() {
   const logout = useAuthStore((s) => s.logout);
   const user = useAuthStore((s) => s.user);
   const location = useLocation();
+  const nav = useNavigate();
+
+  // ✅ 페이지 이동하면 메뉴 닫기(overlay 잔류 방지)
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
 
   return (
     <>
-      {/* ✅ 이 wrapper가 핵심 */}
       <div className="topKebabWrap">
         <button
           className="topKebabBtn"
@@ -33,13 +38,22 @@ export default function TopKebab() {
           <div className="topKebabOverlay" onClick={() => setOpen(false)} />
 
           <div className="topKebabMenu">
-            <Link
-              className="topKebabItem"
-              to="/saved"
-              onClick={() => setOpen(false)}
-            >
+            <Link className="topKebabItem" to="/saved" onClick={() => setOpen(false)}>
               저장한 항목
             </Link>
+
+            {user && (
+              <button
+                className="topKebabItem"
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  nav("/account");
+                }}
+              >
+                Account
+              </button>
+            )}
 
             <div className="topKebabDivider" />
 
@@ -55,6 +69,7 @@ export default function TopKebab() {
             ) : (
               <button
                 className="topKebabItem danger"
+                type="button"
                 onClick={() => {
                   logout();
                   setOpen(false);
